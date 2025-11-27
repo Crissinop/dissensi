@@ -1,14 +1,24 @@
 <!DOCTYPE html>
 <html lang="it">
-<head>
+
 <!------------------------------------------------------------>
 <!-- Head                                                   -->
 <!------------------------------------------------------------>
+<head>
   <meta charset="UTF-8" />
   <title>Il Festival – DISSENSI</title>
   <link rel="icon" type="image/x-icon" href="media/images/favicon.jpg">
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="styles.css" />
+
+  <script>
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'dark') {
+    document.documentElement.classList.add('dark');
+  } else {
+    document.documentElement.classList.remove('dark');
+  }
+  </script>
 </head>
 
 <!------------------------------------------------------------>
@@ -24,6 +34,11 @@
         </a>
       </div>
     </div>
+
+    <button id="theme-toggle" aria-label="Toggle dark mode">
+      <span class="icon-sun">☀️</span>
+      <span class="icon-moon">🌙</span>
+    </button>
 
     <button class="hamburger" aria-label="Apri menu di navigazione" aria-expanded="false" aria-controls="nav-menu">
       <span class="line"></span>
@@ -52,54 +67,56 @@
     </section>
 
     <section class="section info-block">
-  <div class="section-inner info-block-inner left-img">
-    <div class="info-image">
-      <img src="media/images/logo01.png" alt="Chi siamo">
-    </div>
-    <div class="info-text">
-      <h2>Chi siamo</h2>
-      <p>
-        DISSENSI è un festival tematico ideato dal Gruppo di Amnesty International Lecce, con la collaborazione di Amnesty International Italia e Amnesty International Puglia, dedicato al lavoro, alla ricerca e alle battaglie per i diritti umani.
-      </p>
-      <p>
-        Il festival nasce dall’idea che il cambiamento passi da un attivismo collettivo e condiviso, nelle piazze, negli spazi digitali e nei media, mettendo al centro l’elevazione critica e mai la soppressione delle altre persone.
-      </p>
-    </div>
-  </div>
-</section>
+      <div class="section-inner info-block-inner left-img highlight">
+        <div class="info-image">
+          <img src="media/images/logo01.png" alt="Chi siamo">
+        </div>
 
-<section class="section info-block highlight">
-  <div class="section-inner info-block-inner right-img">
-    <div class="info-image">
-      <img src="media/images/protest.jpg" alt="Proteggo la protesta">
-    </div>
-    <div class="info-text">
-      <h2>Proteggo la protesta</h2>
-      <p>
-        Il cuore di DISSENSI è la campagna “Protect the Protest” di Amnesty International, che mira a difendere il diritto a manifestare e a contrastare la repressione del dissenso in Italia e nel mondo.
-        <br><br>
-        La campagna “Protect the Protest” intende sfidare gli attacchi diffusi e internazionali contro il diritto a manifestare pacificamente. Questo diritto è fondamentale perché consente alle persone di esprimere le proprie opinioni, rivendicare diritti civili e politici, e contribuire alla protezione di altri diritti umani.
-        <br><br>
-        Le proteste pacifiche sono un importante strumento di cambiamento sociale e politico e sono tutelate dal diritto internazionale dei diritti umani, anche se spesso i governi rispondono con repressioni violente, leggi restrittive, e l'uso illegittimo della forza per intimidire e disperdere manifestanti.
-      </p>
-    </div>
-  </div>
-</section>
+        <div class="info-text">
+          <h2>Chi siamo</h2>
+          <p>
+            DISSENSI è un festival tematico ideato dal Gruppo di Amnesty International Lecce, con la collaborazione di Amnesty International Italia e Amnesty International Puglia, dedicato al lavoro, alla ricerca e alle battaglie per i diritti umani.
+          </p>
+          <p>
+            Il festival nasce dall'idea che il cambiamento passi da un attivismo collettivo e condiviso, nelle piazze, negli spazi digitali e nei media, mettendo al centro l’elevazione critica e mai la soppressione delle altre persone.
+          </p>
+        </div>
+      </div>
+    </section>
 
-<section class="section info-block">
-  <div class="section-inner info-block-inner left-img">
-    <div class="info-image">
-      <img src="media/images/people.jpg" alt="A chi è rivolto">
-    </div>
-    <div class="info-text">
-      <h2>A chi è rivolto</h2>
-      <p>
-        Il festival si rivolge a chi vive il Salento e il Sud Italia e vuole essere un punto di incontro per stimolare partecipazione, riflessione e nuove forme di attivismo dal basso su diritti civili, giustizia sociale e crisi climatica.
-      </p>
-    </div>
-  </div>
-</section>
+    <section class="section info-block highlight">
+      <div class="section-inner info-block-inner right-img">
+        <div class="info-image">
+          <img src="media/images/protest.jpg" alt="Proteggo la protesta">
+        </div>
 
+        <div class="info-text">
+          <h2>Proteggo la protesta</h2>
+          <p>
+            Il cuore di DISSENSI è la campagna “Protect the Protest” di Amnesty International, che mira a difendere il diritto a manifestare e a contrastare la repressione del dissenso in Italia e nel mondo.
+            <br><br>
+            La campagna “Protect the Protest” intende sfidare gli attacchi diffusi e internazionali contro il diritto a manifestare pacificamente. Questo diritto è fondamentale perché consente alle persone di esprimere le proprie opinioni, rivendicare diritti civili e politici, e contribuire alla protezione di altri diritti umani.
+            <br><br>
+            Le proteste pacifiche sono un importante strumento di cambiamento sociale e politico e sono tutelate dal diritto internazionale dei diritti umani, anche se spesso i governi rispondono con repressioni violente, leggi restrittive, e l'uso illegittimo della forza per intimidire e disperdere manifestanti.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section info-block">
+      <div class="section-inner info-block-inner left-img highlight">
+        <div class="info-image">
+          <img src="media/images/people.jpg" alt="A chi è rivolto">
+        </div>
+
+        <div class="info-text">
+          <h2>A chi è rivolto</h2>
+          <p>
+            Il festival si rivolge a chi vive il Salento e il Sud Italia e vuole essere un punto di incontro per stimolare partecipazione, riflessione e nuove forme di attivismo dal basso su diritti civili, giustizia sociale e crisi climatica.
+          </p>
+        </div>
+      </div>
+    </section>
 
   </main>
 

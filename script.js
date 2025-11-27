@@ -1,3 +1,6 @@
+document.documentElement.classList.add('light');
+document.documentElement.classList.remove('dark');
+
 document.addEventListener("DOMContentLoaded", () => {
   // ---------------------------
   // SCROLL SMOOTH PER LINK
@@ -16,6 +19,28 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   });
+
+
+  // ---------------------------
+  // SCROLL SMOOTH PER LINK
+  // ---------------------------
+const themeToggle = document.getElementById("theme-toggle");
+
+// 1️⃣ Carica preferenza utente
+if (localStorage.getItem("theme") === "dark" ||
+   (!localStorage.getItem("theme") &&
+    window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+  document.documentElement.classList.add("dark");
+}
+
+// 2️⃣ Cambia tema al click
+themeToggle.addEventListener("click", () => {
+  document.documentElement.classList.toggle("dark");
+
+  const isDark = document.documentElement.classList.contains("dark");
+  localStorage.setItem("theme", isDark ? "dark" : "light");
+});
+
 
   // ---------------------------
   // HAMBURGER MENU OTTIMIZZATO
@@ -47,6 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
     link.addEventListener("click", closeMenu);
   });
 
+  
   // ---------------------------
   // FADE-IN IMMAGINE HOMEPAGE
   // ---------------------------

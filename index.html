@@ -10,6 +10,16 @@
   <link rel="icon" type="image/x-icon" href="media/images/favicon.jpg">
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="styles.css" />
+
+  <script>
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'dark') {
+    document.documentElement.classList.add('dark');
+  } else {
+    document.documentElement.classList.remove('dark');
+  }
+  </script>
+
 </head>
 
 <!------------------------------------------------------------>
@@ -25,6 +35,11 @@
         </a>
       </div>
     </div>
+
+    <button id="theme-toggle" aria-label="Toggle dark mode">
+      <span class="icon-sun">☀️</span>
+      <span class="icon-moon">🌙</span>
+    </button>
 
     <button class="hamburger" aria-label="Apri menu di navigazione" aria-expanded="false" aria-controls="nav-menu">
       <span class="line"></span>

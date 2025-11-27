@@ -1,30 +1,143 @@
+/* ----------------------------------------------------------------- */
+/* DEFAULT VARS: LIGHT MODE                                          */
+/* ----------------------------------------------------------------- */
 :root {
-
-/* Palette principale dal brief */
   --color-primary: #e4006a;
   --color-secondary: #fff200;
-  --color-black: #000000;
-  --color-white: #ffffff;
+  --color-black: #000;
+  --color-white: #fff;
 
-/* Colori di supporto */
-  --color-bg: #0b0b0b;
-  --color-surface: #111111;
-  --color-surface-alt: #191919;
-  --color-muted: #bbbbbb;
+  /* Background generali */
+  --bg: #ffffff;
+  --fg: #111111;
+  --card-bg: #f7f7f7;
+  --card-fg: #111111;
+  --overlay-bg: rgba(255,255,255,0.85);
+  --hero-bg: rgba(255,255,255,0.6);
+  --nav-bg: rgba(255,255,255,0.9);
+  --shadow: rgba(0,0,0,0.1);
+  --accent: #e63946;
 
-/* Tipografia e spaziatura */
+  /* Sezioni e highlight */
+  --section-bg: #f7f7f7;
+  --section-fg: #111111;
+  --highlight-bg: linear-gradient(135deg,#f0f0f0,#eaeaea);
+  --highlight-fg: #111111;
+
+  --guest-card-bg: #f7f7f7;
+  --guest-card-fg: #111111;
+  --contact-card-bg: #f7f7f7;
+  --contact-card-fg: #111111;
+  --contact-icon-bg: #ddd;
+  --news-item-bg: #f7f7f7;
+  --news-item-fg: #111111;
+  --footer-bg: #f5f5f5;
+  --footer-fg: #111111;
+
+  /* Tipografia e spaziatura */
   --font-base: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-lg: 16px;
-  --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.4);
+  --shadow-soft: 0 10px 30px rgba(0,0,0,0.4);
 
   --spacing-xs: 0.5rem;
   --spacing-sm: 0.75rem;
   --spacing-md: 1.25rem;
   --spacing-lg: 2rem;
   --spacing-xl: 3rem;
+
+  --transition-fast: 0.3s ease-in-out;
 }
+
+/* ----------------------------------------------------------------- */
+/* LIGHT MODE (classe .light sul root)                               */
+/* ----------------------------------------------------------------- */
+:root.light {
+  --bg: #ffffff;
+  --fg: #111111;
+  --card-bg: #f7f7f7;
+  --card-fg: #111111;
+  --overlay-bg: rgba(255,255,255,0.85);
+  --hero-bg: rgba(255,255,255,0.6);
+  --nav-bg: rgba(255,255,255,0.9);
+  --shadow: rgba(0,0,0,0.1);
+  --accent: #e63946;
+
+  --section-bg: #f7f7f7;
+  --section-fg: #111111;
+  --highlight-bg: linear-gradient(135deg,#f0f0f0,#eaeaea);
+  --highlight-fg: #111111;
+
+  --guest-card-bg: #f7f7f7;
+  --guest-card-fg: #111111;
+  --contact-card-bg: #f7f7f7;
+  --contact-card-fg: #111111;
+  --contact-icon-bg: #ddd;
+  --news-item-bg: #f7f7f7;
+  --news-item-fg: #111111;
+  --footer-bg: #f5f5f5;
+  --footer-fg: #111111;
+}
+
+/* ----------------------------------------------------------------- */
+/* DARK MODE (classe .dark sul root)                                 */
+/* ----------------------------------------------------------------- */
+:root.dark {
+  --bg: #0b0d0f;
+  --fg: #e6e6e6;
+  --card-bg: #1a1d20;
+  --card-fg: #f2f2f2;
+  --overlay-bg: rgba(0,0,0,0.65);
+  --hero-bg: rgba(0,0,0,0.55);
+  --nav-bg: rgba(15,15,18,0.85);
+  --shadow: rgba(255,255,255,0.06);
+  --accent: #ff4d4d;
+
+  --section-bg: #111;
+  --section-fg: #f2f2f2;
+  --highlight-bg: linear-gradient(135deg,#1a0b14,#141414);
+  --highlight-fg: #f2f2f2;
+
+  --guest-card-bg: #191919;
+  --guest-card-fg: #f2f2f2;
+  --contact-card-bg: #111;
+  --contact-card-fg: #fff;
+  --contact-icon-bg: #222;
+  --news-item-bg: #191919;
+  --news-item-fg: #f2f2f2;
+  --footer-bg: #050505;
+  --footer-fg: #bbbbbb;
+}
+
+/* ----------------------------------------------------------------- */
+/* SWITCH ICONS                                                      */
+/* ----------------------------------------------------------------- */
+#theme-toggle .icon-sun,
+#theme-toggle .icon-moon {
+  position: absolute;
+  font-size: 1.2rem;
+  transition: transform var(--transition-fast), opacity var(--transition-fast);
+}
+
+:root.light #theme-toggle .icon-sun {
+  opacity: 1;
+  transform: translateY(0);
+}
+:root.light #theme-toggle .icon-moon {
+  opacity: 0;
+  transform: translateY(15px);
+}
+
+:root.dark #theme-toggle .icon-sun {
+  opacity: 0;
+  transform: translateY(-15px);
+}
+:root.dark #theme-toggle .icon-moon {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 
 /* ----------------------------------------------------------------- */
 /* 1. Definizione di AlfaSlabOne-Regular */
@@ -86,9 +199,10 @@ body {
 
 body {
   font-family: var(--font-base);
-  background-color: var(--color-bg);
-  color: var(--color-white);
+  background-color: var(--bg);
+  color: var(--fg);
   line-height: 1.6;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
 }
 
 /* Layout generali */
@@ -146,6 +260,34 @@ p {
 .text-link {
   color: var(--color-secondary);
   text-decoration: none;
+}
+
+
+/* ----------------------------------------------------------------- */
+/* Light Mode - Dark Mode                                            */
+/* ----------------------------------------------------------------- */
+/* Pulsante switch */
+#theme-toggle {
+  background: var(--bg);
+  color: var(--fg);
+  border: 2px solid var(--fg);
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+}
+
+#theme-toggle .icon-sun,
+#theme-toggle .icon-moon {
+  position: absolute;
+  font-size: 1.2rem;
+  transition: transform var(--transition-fast), opacity var(--transition-fast);
 }
 
 
@@ -278,6 +420,24 @@ body.menu-open {
   gap: 0.75rem;
 }
 
+/* Light mode: sfondo chiaro + testo scuro */
+.light #nav-menu {
+  background-color: #f4f4f4;
+}
+
+.light #nav-menu a {
+  color: #111 !important;
+}
+
+/* Dark mode: sfondo scuro + testo chiaro */
+.dark #nav-menu {
+  background-color: #0d0d0d;
+}
+
+.dark #nav-menu a {
+  color: #fff !important;
+}
+
 /* Link senza sottolineatura, colori principali */
 a,
 a:visited {
@@ -351,19 +511,20 @@ a:focus {
 
 .btn.primary {
   background-color: var(--color-primary);
-  color: var(--color-white);
-  box-shadow: 0 2px 10px rgba(228, 0, 106, 0.3);
+  color: var(--color-black);
+  box-shadow: 0 1px 4px rgba(228, 0, 106, 0.3);
 }
 
 .btn.secondary {
-  background-color: transparent;
-  color: var(--color-secondary);
-  border: 1px solid var(--color-secondary);
+  background-color: var(--color-secondary);
+  color: var(--color-black);
+  box-shadow: 0 1px 4px #ffee00ad;
 }
 
+/* Hover effect */
 .btn:hover {
   transform: translateY(-1px);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
 
 
@@ -496,7 +657,10 @@ a:focus {
 /* Sezioni generiche */
 
 .section {
-  padding: var(--spacing-lg) var(--spacing-lg);
+  padding: var(--spacing-lg);
+  background-color: var(--section-bg);
+  color: var(--section-fg);
+  transition: background-color var(--transition-fast), color var(--transition-fast);
 }
 
 .section:nth-of-type(even) {
@@ -509,10 +673,10 @@ a:focus {
 }
 
 .section.highlight {
-  background: linear-gradient(135deg, #1a0b14, #141414);
-  border-top: 1px solid rgba(228, 0, 106, 0.45);
-  border-bottom: 1px solid rgba(255, 242, 0, 0.45);
+  background: var(--highlight-bg);
+  color: var(--highlight-fg);
 }
+
 
 /* Griglie */
 
@@ -523,7 +687,9 @@ a:focus {
 }
 
 
-/* Timeline del programma */
+/* ----------------------------------------------------------------- */
+/* PROGRAMMA                                                         */
+/* ----------------------------------------------------------------- */
 
 .day-nav {
   display: flex;
@@ -590,10 +756,65 @@ a:focus {
   color: var(--color-muted);
 }
 
+.program-button {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+:root:not(.dark) .program-button {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+}
+
+:root.dark .program-button {
+  background-color: var(--color-secondary);
+  color: var(--color-black);
+}
+
+/* Hover dinamico */
+.program-button:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
 
 /* ----------------------------------------------------------------- */
 /* FESTIVAL                                                          */
 /* ----------------------------------------------------------------- */
+
+/* info-block - usa variabili per coerenza */
+section.info-block {
+  background-color: var(--section-bg);
+  color: var(--section-fg);
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+section.info-block .info-text h2,
+section.info-block .info-text p {
+  color: inherit; /* eredita dal parent */
+}
+
+/* highlight info-block mantiene gradient come homepage */
+section.info-block.highlight {
+  background: var(--highlight-bg);
+  color: var(--highlight-fg);
+}
+
+body.light section.info-block {
+  --section-bg: #e0e0e0; /* grigio chiaro */
+  --section-fg: #222;    /* testo scuro */
+}
+
+body.light section.info-block.highlight {
+  /* mantiene gradient chiaro come in homepage */
+  --highlight-bg: linear-gradient(135deg, #f0f0f0, #eaeaea);
+  --highlight-fg: #111;
+}
 
 /* Layout alternato immagini e testo per desktop */
 .info-block-inner {
@@ -638,7 +859,7 @@ a:focus {
   text-align: justify;
   font-size: 1rem;
   line-height: 1.6;
-  color: var(--color-white);
+  color: var(--section-fg);
 }
 
 
@@ -686,11 +907,12 @@ a:focus {
 
 /* Card: due righe (top = immagine+ruolo, bottom = bio) */
 .guest-card {
-  background-color: var(--color-surface-alt);
+  background-color: var(--guest-card-bg);
+  color: var(--guest-card-fg);
+  transition: background-color var(--transition-fast), color var(--transition-fast);
   border-radius: var(--radius-md);
   padding: var(--spacing-md);
   box-shadow: var(--shadow-soft);
-
   display: grid;
   grid-template-rows: auto 1fr; /* top / bottom */
   gap: var(--spacing-sm);
@@ -772,7 +994,8 @@ a:focus {
 
 /* Ogni card */
 .contact-card {
-  background: #111;
+  background-color: var(--contact-card-bg);
+  color: var(--contact-card-fg);
   border-radius: 1rem;
   padding: 2rem 1.5rem;
   box-shadow: 0 4px 20px rgba(0,0,0,0.25);
@@ -783,6 +1006,7 @@ a:focus {
   text-align: center;
   min-height: 260px;         /* altezza uniforme */
   transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
 }
 
 /* Hover desktop */
@@ -793,6 +1017,7 @@ a:focus {
 
 /* Cerchio icona */
 .contact-icon-wrapper {
+  background-color: var(--contact-icon-bg);
   width: 90px;
   height: 90px;
   border-radius: 50%;
@@ -834,8 +1059,10 @@ a:focus {
 .news-item {
   padding: var(--spacing-md);
   border-radius: var(--radius-md);
-  background-color: var(--color-surface-alt);
+  background-color: var(--news-item-bg);
+  color: var(--news-item-fg);
   box-shadow: var(--shadow-soft);
+  transition: background-color var(--transition-fast), color var(--transition-fast);
 }
 
 /* Note generiche */
@@ -863,8 +1090,8 @@ a:focus {
   padding: var(--spacing-md) var(--spacing-lg);
   border-top: 1px solid #202020;
   font-size: 0.85rem;
-  color: var(--color-muted);
-  background-color: #050505;
+  background-color: var(--footer-bg);
+  color: var(--footer-fg);
 }
 
 
