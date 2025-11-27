@@ -634,6 +634,7 @@ a:focus {
 }
 
 .info-text p {
+  text-align: justify;
   font-size: 1rem;
   line-height: 1.6;
   color: var(--color-white);
