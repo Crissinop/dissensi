@@ -1,0 +1,1229 @@
+:root {
+
+/* Palette principale dal brief */
+  --color-primary: #e4006a;
+  --color-secondary: #fff200;
+  --color-black: #000000;
+  --color-white: #ffffff;
+
+/* Colori di supporto */
+  --color-bg: #0b0b0b;
+  --color-surface: #111111;
+  --color-surface-alt: #191919;
+  --color-muted: #bbbbbb;
+
+/* Tipografia e spaziatura */
+  --font-base: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.4);
+
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 0.75rem;
+  --spacing-md: 1.25rem;
+  --spacing-lg: 2rem;
+  --spacing-xl: 3rem;
+}
+
+/* ----------------------------------------------------------------- */
+/* 1. Definizione di AlfaSlabOne-Regular */
+/* ----------------------------------------------------------------- */
+@font-face {
+    font-family: 'AlfaSlabOne';
+    src: url('media/fonts/AlfaSlabOne-Regular.woff2') format('woff2'),
+         url('media/fonts/AlfaSlabOne-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+
+/* ----------------------------------------------------------------- */
+/* 2. Definizione di Fixture-ExtraLight */
+/* ----------------------------------------------------------------- */
+@font-face {
+    font-family: 'Fixture';
+    src: url('media/fonts/Fixture-ExtraLight.woff2') format('woff2'),
+         url('media/fonts/Fixture-ExtraLight.woff') format('woff');
+    
+    /* Imposta il peso specifico del font */
+    font-weight: 200; /* ExtraLight corrisponde a un peso basso */
+    font-style: normal;
+    font-display: swap;
+}
+
+
+/* ----------------------------------------------------------------- */
+/* 3. Definizione di NexaRustSans-Trial-BlackShadow1 */
+/* ----------------------------------------------------------------- */
+@font-face {
+    font-family: 'Nexa Rust Shadow';
+    src: url('media/fonts/NexaRustSans-Trial-BlackShadow1.woff2') format('woff2'),
+         url('media/fonts/NexaRustSans-Trial-BlackShadow1.woff') format('woff');
+    
+    /* Questo è un font decorativo, puoi lasciare il peso normale */
+    font-weight: normal; 
+    font-style: normal;
+    font-display: swap;
+}
+
+
+/* ----------------------------------------------------------------- */
+/* Reset di Base                                                     */
+/* ----------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-base);
+  background-color: var(--color-bg);
+  color: var(--color-white);
+  line-height: 1.6;
+}
+
+/* Layout generali */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  background: rgba(0, 0, 0, 0.92);
+  border-bottom: 2px solid var(--color-primary);
+  backdrop-filter: blur(14px);
+}
+
+/* ----------------------------------------------------------------- */
+/* Proprietà Testo                                                   */
+/* ----------------------------------------------------------------- */
+h1 {
+  font-family: 'AlfaSlabOne', Impact, sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  letter-spacing: 0.04em;
+  margin-bottom: 1rem;
+}
+
+h2 {
+  font-family: 'Fixture', 'Helvetica Neue', sans-serif;
+  font-weight: 200;
+  letter-spacing: 0.02em;
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  font-size: 2rem;
+}
+
+h3 {
+  font-family: 'Fixture', serif;
+  font-weight: 200;
+  letter-spacing: 0.02rem;
+  margin-bottom: 0.5rem;
+}
+
+p {
+  font-family: 'Fixture', serif;
+  font-weight: 200;
+  letter-spacing: 0.02rem;
+}
+
+/* Link testuali */
+.text-link {
+  color: var(--color-secondary);
+  text-decoration: none;
+}
+
+
+/* ----------------------------------------------------------------- */
+/* LOGO                                                              */
+/* ----------------------------------------------------------------- */
+
+.logo-claim {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  flex: 1;
+}
+
+.logo {
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  color: var(--color-secondary);
+}
+
+.claim {
+  font-size: 0.85rem;
+  color: var(--color-muted);
+}
+
+.logo img {
+  width: 300px;       /* larghezza fissa per desktop */
+  height: auto;
+  max-width: 100%;    /* per non oltrepassare il contenitore */
+  display: block;
+}
+
+
+/* ----------------------------------------------------------------- */
+/* HAMBURGER                                                         */
+/* ----------------------------------------------------------------- */
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 28px;
+  height: 20px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 30;
+}
+
+.hamburger .line {
+  width: 100%;
+  height: 2px;
+  background-color: var(--color-secondary);
+  border-radius: 2px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  transform-origin: center;
+}
+
+/* Hamburger animazione X */
+.hamburger.open .line:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+.hamburger.open .line:nth-child(2) {
+  opacity: 0;
+}
+.hamburger.open .line:nth-child(3) {
+  transform: rotate(-45deg) translate(4px, -4px);
+}
+
+
+/* ----------------------------------------------------------------- */
+/* MENU OVERLAY                                                      */
+/* ----------------------------------------------------------------- */
+
+#menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  display: none;
+  z-index: 20;
+}
+
+/* Mostra overlay solo quando menu aperto */
+#menu-overlay.active {
+  display: block;
+}
+
+/* Impedire scroll body quando menu aperto */
+body.menu-open {
+  overflow: hidden;
+}
+
+
+/* ----------------------------------------------------------------- */
+/* NAVIGATION PANEL                                                  */
+/* ----------------------------------------------------------------- */
+
+.main-nav a {
+  text-decoration: none;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-muted);
+  padding: 0.4rem 0.8rem;
+  border-radius: 999px;
+  transition: background-color 0.18s ease, color 0.18s ease, transform 0.12s ease;
+  background-color: transparent;
+}
+
+.main-nav a:hover {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  transform: translateY(-1px);
+}
+
+.main-nav a.active {
+  background-color: var(--color-secondary);
+  color: var(--color-black);
+}
+
+/* Nav menu principale - lato desktop */
+.main-nav {
+  display: flex;
+  gap: 0.75rem;
+}
+
+/* Link senza sottolineatura, colori principali */
+a,
+a:visited {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+a:hover,
+a:focus {
+  color: var(--color-secondary);
+  outline: none;
+}
+
+
+/* ----------------------------------------------------------------- */
+/* HERO                                                              */
+/* ----------------------------------------------------------------- */
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-xl);
+  padding: var(--spacing-xl) var(--spacing-lg);
+}
+
+/* Pulsanti */
+.hero-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+  justify-content: center;
+  width: 100%;
+}
+
+/* Video */
+.hero-video {
+  width: 100%;
+  max-width: 1200px; /* video più grande su desktop */
+  aspect-ratio: 16/9; /* mantiene proporzioni */
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+}
+
+.hero-video video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* riempie il contenitore senza deformarsi */
+}
+
+
+/* ----------------------------------------------------------------- */
+/* PULSANTI                                                          */
+/* ----------------------------------------------------------------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.65rem 1.4rem;
+  border-radius: 999px;
+  font-size: 0.92rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, background-color 0.15s ease, color 0.15s ease;
+}
+
+.btn.primary {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  box-shadow: 0 2px 10px rgba(228, 0, 106, 0.3);
+}
+
+.btn.secondary {
+  background-color: transparent;
+  color: var(--color-secondary);
+  border: 1px solid var(--color-secondary);
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+}
+
+
+/* ----------------------------------------------------------------- */
+/* IMMAGINE HOMEPAGE                                                 */
+/* ----------------------------------------------------------------- */
+
+#fade-image-container {
+  position: relative;
+  width: 100%;
+  max-height: 700px;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 2s ease-in-out;
+}
+
+#fade-image-container.visible {
+  opacity: 1;
+}
+
+#fade-image-container img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover; /* opzione per ritagliare l'immagine */
+}
+
+.slideshow {
+    position: relative;
+}
+
+.slideshow::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7); /* desktop: nessuna opacità */
+    pointer-events: none;
+}
+
+
+/* ----------------------------------------------------------------- */
+/* HOMEPAGE IMG                                                      */
+/* ----------------------------------------------------------------- */
+
+/* Font Testo su Immagine */
+.overlay-text h2 {
+  font-size: 8rem;
+}
+
+/* Overlay Immagine Homepage */
+.image-overlay-container {
+  position: relative;
+  max-width: 900px; /* imposta in base alla tua immagine */
+  margin: 0 auto;
+}
+
+.image-overlay-container img {
+  width: 100%;
+  display: block;
+  opacity: 0.4;
+}
+
+/* TESTO PRINCIPALE */
+.overlay-text {
+  position: absolute;
+  top: 50%;
+  left: 0; /* ora parte da sinistra */
+  transform: translate(-120%, -50%); /* inizio: fuori schermo a sinistra */
+  color: white;
+  padding: 1rem 1.5rem;
+  opacity: 0;
+  white-space: nowrap;
+  font-size: 8rem;
+  font-weight: bold;
+  transition: opacity 1.2s ease, transform 1.2s ease;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* TESTO SECONDARIO */
+.suboverlay-text {
+  position: absolute;
+  top: 50%;
+  left: 0; /* ora a sinistra */
+  transform: translate(-80%, 80%); /* inizio: fuori schermo a sinistra */
+  color: white;
+  padding: 1rem 1.5rem;
+  opacity: 0;
+  white-space: nowrap;
+  font-size: 1.5rem;
+  font-weight: bold;
+  transition: opacity 2.2s ease, transform 2.2s ease;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Stato finale: testo visibile */
+.overlay-text.visible {
+  opacity: 1;
+  transform: translate(0, -50%); /* arriva da sinistra e si ferma centrato verticalmente */
+}
+
+.suboverlay-text.visible {
+  opacity: 1;
+  transform: translate(0, 80%); /* arriva da sinistra e si ferma leggermente sotto */
+}
+
+
+/* ----------------------------------------------------------------- */
+/* PAGINE INTERNE                                                    */
+/* ----------------------------------------------------------------- */
+
+.page-hero {
+  padding: var(--spacing-xl) var(--spacing-lg) var(--spacing-md);
+}
+
+.page-hero h1 {
+  margin: 0 0 0.3rem;
+  font-size: clamp(1.8rem, 3vw, 2.3rem);
+}
+
+.page-hero p {
+  margin: 0.3rem 0 0;
+  color: var(--color-muted);
+}
+
+/* Sezioni generiche */
+
+.section {
+  padding: var(--spacing-lg) var(--spacing-lg);
+}
+
+.section:nth-of-type(even) {
+  background-color: var(--color-surface);
+}
+
+.section-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+.section.highlight {
+  background: linear-gradient(135deg, #1a0b14, #141414);
+  border-top: 1px solid rgba(228, 0, 106, 0.45);
+  border-bottom: 1px solid rgba(255, 242, 0, 0.45);
+}
+
+/* Griglie */
+
+.two-columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--spacing-lg);
+}
+
+
+/* Timeline del programma */
+
+.day-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-md);
+}
+
+.day-location {
+  margin-top: 0.3rem;
+  color: var(--color-muted);
+  font-size: 0.95rem;
+}
+
+.timeline {
+  margin-top: var(--spacing-md);
+  border-left: 2px solid rgba(255, 242, 0, 0.6);
+  padding-left: var(--spacing-md);
+}
+
+.event {
+  position: relative;
+  margin-bottom: var(--spacing-md);
+  padding-left: var(--spacing-md);
+}
+
+.event::before {
+  content: "";
+  position: absolute;
+  left: -11px;
+  top: 0.4rem;
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background-color: var(--color-primary);
+}
+
+.event-time {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-secondary);
+  margin-bottom: 0.15rem;
+}
+
+.event-body h3 {
+  margin: 0 0 0.25rem;
+  font-size: 1.05rem;
+}
+
+.event-body p {
+  margin: 0 0 0.3rem;
+}
+
+.event-guests {
+  font-size: 0.9rem;
+  color: var(--color-muted);
+}
+
+/* Materials note */
+
+.materials-note {
+  margin-top: var(--spacing-md);
+  font-size: 0.95rem;
+  color: var(--color-muted);
+}
+
+
+/* ----------------------------------------------------------------- */
+/* FESTIVAL                                                          */
+/* ----------------------------------------------------------------- */
+
+/* Layout alternato immagini e testo per desktop */
+.info-block-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: var(--spacing-lg);
+}
+
+/* Immagine responsive */
+.info-image img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-soft);
+}
+
+/* Alternanza destra-sinistra */
+.info-block-inner.left-img {
+  grid-template-columns: 2fr 2fr; /* immagine 1/3, testo 2/3 */
+   grid-template-areas: "image text";
+}
+
+.info-block-inner.right-img {
+  grid-template-columns: 2fr 1fr; /* testo 2/3, immagine 1/3 */
+  grid-template-areas: "text image";
+}
+
+.info-block-inner.left-img .info-image { grid-area: image; }
+.info-block-inner.left-img .info-text  { grid-area: text; }
+
+.info-block-inner.right-img .info-image { grid-area: image; }
+.info-block-inner.right-img .info-text  { grid-area: text; }
+
+/* Testo */
+.info-text h2 {
+  font-size: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.info-text p {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--color-white);
+}
+
+
+/* ----------------------------------------------------------------- */
+/* BOX MAPPA                                                         */
+/* ----------------------------------------------------------------- */
+
+.map-box {
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md);
+  background-color: var(--color-surface-alt);
+  border: 1px solid rgba(255, 242, 0, 0.35);
+}
+
+
+/* ----------------------------------------------------------------- */
+/* OSPITI                                                            */
+/* ----------------------------------------------------------------- */
+
+/* Griglia esterna: 2 card per riga su desktop, 1 su mobile */
+.guests-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 card per riga */
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-md);
+}
+
+@media (max-width: 720px) {
+  .guests-grid {
+    grid-template-columns: 1fr; /* 1 card per riga su mobile */
+  }
+}
+
+/* Card: due righe (top = immagine+ruolo, bottom = bio) */
+.guest-card {
+  background-color: var(--color-surface-alt);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md);
+  box-shadow: var(--shadow-soft);
+
+  display: grid;
+  grid-template-rows: auto 1fr; /* top / bottom */
+  gap: var(--spacing-sm);
+  align-items: start;
+}
+
+/* TOP: due box affiancati (immagine | nome + ruolo) */
+.guest-top {
+  display: grid;
+  grid-template-columns: 120px 1fr; /* immagine fissa, testo flessibile */
+  gap: var(--spacing-md);
+  align-items: center;
+}
+
+/* Contenitore immagine: manteniamo dimensione fissa per il box */
+.guest-image-box {
+  width: 120px;
+  height: 120px;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+}
+
+/* Immagine: occupa il box, mantiene aspect ratio e usa object-fit */
+.guest-photo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Nome e ruolo (colonna destra nella top) */
+.guest-role-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.25rem;
+}
+
+.guest-role-box h2 {
+  margin: 0;
+  line-height: 1.1;
+}
+
+.guest-role {
+  margin: 0;
+  font-size: 0.95rem;
+  opacity: 0.85;
+}
+
+/* BOTTOM: bio + link, occupa la riga inferiore */
+.guest-bottom {
+  border-top: 1px solid var(--color-border);
+  padding-top: var(--spacing-sm);
+  margin-top: var(--spacing-sm);
+}
+
+/* Bio dentro il bottom */
+.guest-bio {
+  margin: 0 0 0.5rem 0;
+}
+
+/* Link */
+.guest-links a {
+  text-decoration: none;
+  color: inherit;
+}
+
+
+/* ----------------------------------------------------------------- */
+/* CONTATTI                                                          */
+/* ----------------------------------------------------------------- */
+
+.contact-cards {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  margin-top: 2rem;
+}
+
+/* Ogni card */
+.contact-card {
+  background: #111;
+  border-radius: 1rem;
+  padding: 2rem 1.5rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;   /* centra verticalmente */
+  align-items: center;       /* centra orizzontalmente */
+  text-align: center;
+  min-height: 260px;         /* altezza uniforme */
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* Hover desktop */
+.contact-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 24px rgba(0,0,0,0.35);
+}
+
+/* Cerchio icona */
+.contact-icon-wrapper {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: #222;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.contact-icon-wrapper i {
+  font-size: 2.8rem;
+}
+
+/* Colori icone */
+.contact-card.instagram i {
+  color: #E1306C;
+}
+
+.contact-card.facebook i {
+  color: #1877F2;
+}
+
+.contact-card.email i {
+  color: #FFD700;
+}
+
+.contact-card p a,
+.contact-card p {
+  color: #fff;
+  margin: 0;
+}
+
+
+/* ----------------------------------------------------------------- */
+/* NEWS                                                              */
+/* ----------------------------------------------------------------- */
+
+.news-item {
+  padding: var(--spacing-md);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface-alt);
+  box-shadow: var(--shadow-soft);
+}
+
+/* Note generiche */
+
+.note {
+  margin-top: var(--spacing-md);
+  font-size: 0.9rem;
+  color: var(--color-muted);
+}
+
+
+/* ----------------------------------------------------------------- */
+/* ICONS                                                             */
+/* ----------------------------------------------------------------- */
+.contact-icon-link i {
+  color: #111;
+}
+
+
+/* ----------------------------------------------------------------- */
+/* FOOTER                                                            */
+/* ----------------------------------------------------------------- */
+
+.site-footer {
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-top: 1px solid #202020;
+  font-size: 0.85rem;
+  color: var(--color-muted);
+  background-color: #050505;
+}
+
+
+/* ----------------------------------------------------------------- */
+/* MOBILE                                                            */
+/* ----------------------------------------------------------------- */
+
+/* ---------------------------- */
+/* SMALL MOBILE (< 480px)       */
+/* ---------------------------- */
+
+@media (max-width: 480px) {
+  .overlay-text h2 {
+    font-size: clamp(1.7rem, 9vw, 2.4rem);
+  }
+
+  .suboverlay-text h2 {
+    font-size: clamp(0.9rem, 4vw, 1.3rem);
+  }
+
+  .overlay-text {
+    top: 30%;
+  }
+
+  .suboverlay-text {
+    top: 48%;
+  }
+
+  .hero {
+    padding: var(--spacing-sm);
+    gap: var(--spacing-md);
+  }
+
+  .hero-video {
+    max-width: 100%; /* riempie completamente lo schermo */
+  }
+
+  .guest-card {
+    grid-template-columns: 80px 1fr; /* riduce immagine */
+    grid-template-rows: auto auto;
+    padding: var(--spacing-sm);
+  }
+
+  .guest-top {
+    grid-template-columns: 80px 1fr;
+    gap: var(--spacing-sm);
+  }
+
+  .guest-image-box,
+  .guest-photo {
+    width: 80px;
+    height: 80px;
+  }
+
+  .guest-role-box h2 {
+    font-size: 1rem; /* testo ridotto */
+  }
+
+  .guest-role {
+    font-size: 0.85rem;
+  }
+
+  .guest-bio {
+    font-size: 0.9rem;
+  }
+
+  .contact-card {
+    min-height: 220px;
+    padding: 1.5rem 1rem;
+  }
+
+  .contact-icon-wrapper {
+    width: 75px;
+    height: 75px;
+  }
+
+  .contact-icon-wrapper i {
+    font-size: 2.2rem;
+  }
+}
+
+
+/* ---------------------------- */
+/* SMALL MOBILE (< 600px)       */
+/* ---------------------------- */
+
+@media (max-width: 600px) {
+  .overlay-text h2 {
+    font-size: 3rem;
+  }
+  .suboverlay-text h2 {
+    font-size: 1.1rem;
+  }
+
+  /* Ridimensionamento ulteriore per smartphone piccoli */
+  .guest-image-box {
+    width: 80px;
+    height: 80px;
+  }
+
+  .guest-role-box h2 {
+    font-size: 1.1rem;
+  }
+
+  .guest-role {
+    font-size: 0.85rem;
+  }
+
+  .guest-bio {
+    font-size: 0.8rem;
+  }
+}
+
+
+/* ---------------------------- */
+/* SMALL MOBILE (< 720px)       */
+/* ---------------------------- */
+
+@media (max-width: 720px) {
+  #menu-overlay {
+    display: none !important;
+  }
+  
+  .site-header {
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+
+  .main-nav {
+    justify-content: flex-start;
+  }
+
+  /* Hamburger */
+  .hamburger {
+    display: flex;
+  }
+  .main-nav {
+    position: fixed;
+    top: 0;
+    right: -260px;
+    width: 260px;
+    height: 100vh;
+    background-color: var(--color-black);
+    flex-direction: column;
+    padding: 2.2rem 1.6rem;
+    gap: 1.2rem;
+    transition: right 0.3s ease;
+    z-index: 25;
+  }
+  .main-nav.open {
+    right: 0;
+  }
+  .main-nav a {
+    font-size: 0.95rem;
+    padding: 0.9rem 0.8rem;
+    letter-spacing: 0.3px;
+    border-radius: var(--radius-sm);
+    /* Ripristino colore hover e active personalizzati */
+    background-color: transparent;
+    color: var(--color-muted);
+    transition: background-color 0.18s ease, color 0.18s ease;
+  }
+  /* Hover magenta */
+  .main-nav a:hover {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+  }
+  /* Active giallo */
+  .main-nav a.active {
+    background-color: var(--color-secondary);
+    color: var(--color-black);
+  }
+
+  .main-nav a {
+    font-size: 1rem; /* leggermente più piccolo rispetto a 1.2rem */
+    padding: 1rem 1.2rem; /* più padding verticale per separare bene */
+    margin-top: 0.5rem; /* distanza verticale tra le voci */
+    border-radius: var(--radius-sm);
+    display: block; /* assicura che siano su righe separate */
+  }
+
+  .section {
+    padding: var(--spacing-lg) var(--spacing-md);
+  }
+
+  .logo img {
+    width: 120px;     /* dimensione più piccola per mobile */
+  }
+
+  .page-hero {
+    padding: var(--spacing-lg) var(--spacing-md) var(--spacing-md);
+  }
+
+  .two-columns {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* Griglia delle card: una colonna sola */
+  .guests-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-lg);
+    padding: 0 var(--spacing-md);
+  }
+
+  /* Card ospiti: layout verticale se necessario */
+  .guest-card {
+    display: grid;
+    grid-template-columns: 1fr; /* immagine sopra, testo sotto */
+    grid-template-rows: auto auto;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md);
+    word-break: break-word;
+  }
+
+  /* TOP: immagine e titolo */
+  .guest-top {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 0.5rem;
+  }
+
+  .guest-image-box {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+  }
+
+  .guest-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Titolo più grande, ruolo leggermente più piccolo */
+  .guest-role-box h2 {
+    font-size: 1.5rem;
+    margin: 0.2rem 0;
+  }
+
+  .guest-role {
+    font-size: 0.9rem;
+    opacity: 0.85;
+  }
+
+  /* BOTTOM: bio più leggibile e più piccolo */
+  .guest-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: var(--spacing-sm);
+  }
+
+  .guest-bio {
+    font-size: 0.85rem;
+    line-height: 1.4;
+    margin: 0.3rem 0 0.5rem 0;
+  }
+
+  .info-block-inner {
+    display: flex !important;       /* assicurati che rimanga flex */
+    flex-direction: column !important; /* forza verticale */
+    align-items: center;            /* centra immagine e testo */
+    text-align: center;             /* testo centrato */
+  }
+
+  .info-block-inner .info-image,
+  .info-block-inner .info-text {
+    width: 100%;                    /* occupano tutta la larghezza */
+    margin: 0 0 1rem 0;             /* spazio sotto immagine */
+  }
+
+  .info-block-inner.left-img,
+  .info-block-inner.right-img {
+    flex-direction: column !important; /* forza colonna su mobile */
+  }
+
+  .info-text h2 {
+    font-size: 1.5rem;
+  }
+
+  .info-text p {
+    font-size: 0.9rem;
+  }
+}
+
+
+/* ---------------------------- */
+/* MOBILE (< 768px)             */
+/* ---------------------------- */
+
+@media (max-width: 768px) {
+
+  /* Contenitore testo */
+  .overlay-text,
+  .suboverlay-text {
+    right: 50%;
+    transform: translate(-50%, 0); 
+    text-align: center;
+    white-space: normal;
+    width: 90%;
+    pointer-events: none;
+  }
+
+  /* Titolo principale */
+  .overlay-text h2 {
+    font-size: clamp(2.2rem, 6vw, 3.4rem); 
+    line-height: 1.1;
+    font-weight: 700;
+  }
+
+  /* Data */
+  .suboverlay-text h2 {
+    font-size: clamp(1.1rem, 3vw, 1.6rem);
+    margin-top: 0.6rem;
+    line-height: 1.2;
+    font-weight: 400;
+  }
+
+  /* Posizione verticale ottimizzata */
+  .overlay-text {
+    top: 32%;
+  }
+
+  .suboverlay-text {
+    top: 50%;
+  }
+
+  /* Posizione quando diventa visibile */
+  .overlay-text.visible{
+    transform: translate(-8%, 0);
+  }
+
+  .suboverlay-text.visible {
+    transform: translate(-19%, 0);
+  }
+
+  .hero {
+    padding: var(--spacing-lg);
+    gap: var(--spacing-lg);
+  }
+
+  .hero-cta {
+    flex-direction: column; /* pulsanti verticali su mobile */
+    gap: var(--spacing-sm);
+  }
+
+  .hero-video {
+    max-width: 100%;
+  }
+
+  .contact-cards {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-lg);
+  }
+
+  .contact-card {
+    padding: var(--spacing-lg);
+  }
+
+  .slideshow::after {
+        background: rgba(0, 0, 0, 0.4); /* mobile: 40% nero */
+    }
+}
+
+
+/* ---------------------------- */
+/* MOBILE (< 900px)             */
+/* ---------------------------- */
+@media (max-width: 900px) {
+  .hero {
+    grid-template-columns: 1fr; /* una colonna solo */
+    gap: var(--spacing-lg);
+    padding: var(--spacing-lg);
+  }
+
+  .hero-video {
+    max-width: 90%; /* adatta il video alla larghezza del device */
+  }
+}
