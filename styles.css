@@ -420,24 +420,6 @@ body.menu-open {
   gap: 0.75rem;
 }
 
-/* Light mode: sfondo chiaro + testo scuro */
-.light #nav-menu {
-  background-color: #f4f4f4;
-}
-
-.light #nav-menu a {
-  color: #111 !important;
-}
-
-/* Dark mode: sfondo scuro + testo chiaro */
-.dark #nav-menu {
-  background-color: #0d0d0d;
-}
-
-.dark #nav-menu a {
-  color: #fff !important;
-}
-
 /* Link senza sottolineatura, colori principali */
 a,
 a:visited {
@@ -1051,6 +1033,17 @@ body.light section.info-block.highlight {
   margin: 0;
 }
 
+/* LIGHT MODE → testo scuro */
+.light .contact-card p,
+.light .contact-card p a {
+  color: var(--color-black) !important;
+}
+
+/* DARK MODE → testo chiaro */
+.dark .contact-card p,
+.dark .contact-card p a {
+  color: var(--color-white) !important;
+}
 
 /* ----------------------------------------------------------------- */
 /* NEWS                                                              */
@@ -1453,8 +1446,48 @@ body.light section.info-block.highlight {
   }
 
   .slideshow::after {
-        background: rgba(0, 0, 0, 0.4); /* mobile: 40% nero */
-    }
+    background: rgba(0, 0, 0, 0.4); /* mobile: 40% nero */
+  }
+
+  /* Contenitore mobile */
+  #nav-menu {
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+  }
+
+  /* Link */
+  #nav-menu a {
+    display: block;
+    padding: 1rem 1.2rem;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Light mode – menu mobile */
+  .light #nav-menu {
+    background-color: #f4f4f4;
+  }
+
+  .light #nav-menu a {
+    color: #000 !important;
+  }
+
+  /* Dark mode – menu mobile */
+  .dark #nav-menu {
+    background-color: #0d0d0d;
+  }
+
+  .dark #nav-menu a {
+    color: #fff !important;
+  }
+
+  /* Hover coerente */
+  #nav-menu a:hover {
+    background-color: var(--color-primary);
+    color: var(--color-white) !important;
+  }
 }
 
 
