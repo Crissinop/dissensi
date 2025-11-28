@@ -712,7 +712,7 @@ a:focus {
 .event-time {
   font-size: 0.85rem;
   font-weight: 600;
-  color: var(--color-secondary);
+  color: var(--color-primary);
   margin-bottom: 0.15rem;
 }
 
