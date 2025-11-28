@@ -673,62 +673,156 @@ a:focus {
 /* PROGRAMMA                                                         */
 /* ----------------------------------------------------------------- */
 
+/* Hero del programma */
+.program-hero {
+  text-align: center;
+  padding-bottom: calc(var(--spacing-lg) * 0.9);
+}
+
+.program-hero h1 {
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.program-hero p {
+  max-width: 640px;
+  margin: 0.4rem auto 0;
+  color: var(--color-muted);
+}
+
+/* Barra giorni: pill minimal */
 .day-nav {
-  display: flex;
+  display: inline-flex;
   flex-wrap: wrap;
   gap: var(--spacing-sm);
   margin-top: var(--spacing-md);
+  padding: 0.35rem 0.45rem;
+  border-radius: 999px;
+  background-color: rgba(0, 0, 0, 0.12);
+  backdrop-filter: blur(10px);
 }
 
+.light .day-nav {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.day-nav .btn.secondary {
+  background-color: transparent;
+  color: var(--fg);
+  border-radius: 999px;
+  padding: 0.4rem 1.1rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  border: 1px solid transparent;
+  box-shadow: none;
+  transition:
+    background-color 0.18s ease,
+    color 0.18s ease,
+    border-color 0.18s ease,
+    transform 0.18s ease;
+}
+
+.day-nav .btn.secondary:hover {
+  background-color: var(--color-secondary);
+  color: #000;
+  border-color: transparent;
+  transform: translateY(-1px);
+}
+
+/* Sede / location sotto al titolo del giorno */
 .day-location {
   margin-top: 0.3rem;
   color: var(--color-muted);
   font-size: 0.95rem;
 }
 
+/* ----------------------------------------------------------------- */
+/* PROGRAMMA – timeline                                              */
+/* ----------------------------------------------------------------- */
+
+/* Contenitore timeline: linea semplice a sinistra */
 .timeline {
-  margin-top: var(--spacing-md);
-  border-left: 2px solid rgba(255, 242, 0, 0.6);
-  padding-left: var(--spacing-md);
+  position: relative;
+  margin-top: var(--spacing-lg);
+  padding-left: 2.25rem;
+  border-left: 1px solid var(--color-border);
 }
 
+/* Card evento */
 .event {
   position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 90px) minmax(0, 1fr);
+  column-gap: var(--spacing-md);
+  row-gap: 0.15rem;
   margin-bottom: var(--spacing-md);
-  padding-left: var(--spacing-md);
+  padding: var(--spacing-md);
+  border-radius: 14px;
+  background-color: var(--card-bg);
+  color: var(--card-fg);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  overflow: hidden;
+  transition:
+    transform 0.18s ease-out,
+    box-shadow 0.18s ease-out,
+    border-color 0.18s ease-out,
+    background-color 0.18s ease-out;
 }
 
-.event::before {
-  content: "";
-  position: absolute;
-  left: -11px;
-  top: 0.4rem;
-  width: 10px;
-  height: 10px;
-  border-radius: 999px;
-  background-color: var(--color-primary);
+/* Hover sobrio solo su desktop */
+@media (hover: hover) and (pointer: fine) {
+  .event:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55);
+    border-color: rgba(255, 242, 0, 0.45);
+  }
 }
 
+/* Colonna oraria */
 .event-time {
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
   color: var(--color-primary);
-  margin-bottom: 0.15rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding-top: 0.1rem;
 }
 
+/* Testo evento */
 .event-body h3 {
   margin: 0 0 0.25rem;
   font-size: 1.05rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .event-body p {
-  margin: 0 0 0.3rem;
+  margin: 0 0 0.35rem;
 }
 
 .event-guests {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: var(--color-muted);
 }
+
+/* Link verso Ospiti dentro la timeline */
+.event-guests a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.15em;
+  transition: color 0.18s ease;
+}
+
+.event-guests a:hover {
+  color: var(--color-primary);
+}
+
 
 /* Materials note */
 
@@ -876,48 +970,89 @@ body.light section.info-block.highlight {
 /* Griglia esterna: 2 card per riga su desktop, 1 su mobile */
 .guests-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* 2 card per riga */
+  grid-template-columns: repeat(2, 1fr);
   gap: var(--spacing-md);
   margin-top: var(--spacing-md);
 }
 
 @media (max-width: 720px) {
   .guests-grid {
-    grid-template-columns: 1fr; /* 1 card per riga su mobile */
+    grid-template-columns: 1fr;
   }
 }
 
-/* Card: due righe (top = immagine+ruolo, bottom = bio) */
+/* Card ospiti – base, minimal */
 .guest-card {
   background-color: var(--guest-card-bg);
   color: var(--guest-card-fg);
-  transition: background-color var(--transition-fast), color var(--transition-fast);
-  border-radius: var(--radius-md);
-  padding: var(--spacing-md);
-  box-shadow: var(--shadow-soft);
-  display: grid;
-  grid-template-rows: auto 1fr; /* top / bottom */
-  gap: var(--spacing-sm);
-  align-items: start;
+  border-radius: 16px;
+  padding: calc(var(--spacing-md) * 1.1);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  overflow: hidden;
+  position: relative;
+  transition:
+    transform 0.22s ease-out,
+    box-shadow 0.22s ease-out,
+    border-color 0.22s ease-out,
+    background-color 0.22s ease-out;
 }
 
-/* TOP: due box affiancati (immagine | nome + ruolo) */
+/* Accento molto leggero: alone diagonale magenta */
+.guest-card::before {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  background: radial-gradient(circle at top left,
+              rgba(228, 0, 106, 0.22),
+              transparent 55%);
+  opacity: 0.18;
+  pointer-events: none;
+  transition: opacity 0.22s ease-out;
+}
+
+/* Light / dark: piccole variazioni di ombra e bordo */
+.light .guest-card {
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+  border-color: rgba(0, 0, 0, 0.04);
+}
+
+.dark .guest-card {
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.7);
+  border-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Hover desktop: sollevamento sobrio */
+@media (hover: hover) and (pointer: fine) {
+  .guest-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 44px rgba(0, 0, 0, 0.6);
+    border-color: rgba(255, 242, 0, 0.4);
+  }
+
+  .guest-card:hover::before {
+    opacity: 0.26;
+  }
+}
+
+/* TOP: immagine | nome + ruolo */
 .guest-top {
   display: grid;
-  grid-template-columns: 120px 1fr; /* immagine fissa, testo flessibile */
+  grid-template-columns: 120px 1fr;
   gap: var(--spacing-md);
   align-items: center;
 }
 
-/* Contenitore immagine: manteniamo dimensione fissa per il box */
+/* Contenitore immagine */
 .guest-image-box {
   width: 120px;
   height: 120px;
+  border-radius: 999px;
   overflow: hidden;
-  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 242, 0, 0.55);
 }
 
-/* Immagine: occupa il box, mantiene aspect ratio e usa object-fit */
+/* Immagine */
 .guest-photo {
   display: block;
   width: 100%;
@@ -925,7 +1060,7 @@ body.light section.info-block.highlight {
   object-fit: cover;
 }
 
-/* Nome e ruolo (colonna destra nella top) */
+/* Nome e ruolo */
 .guest-role-box {
   display: flex;
   flex-direction: column;
@@ -934,32 +1069,73 @@ body.light section.info-block.highlight {
 }
 
 .guest-role-box h2 {
-  margin: 0;
-  line-height: 1.1;
+  font-size: 1.25rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
+/* Ruolo – base */
 .guest-role {
-  margin: 0;
-  font-size: 0.95rem;
-  opacity: 0.85;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  opacity: 0.9;
 }
 
-/* BOTTOM: bio + link, occupa la riga inferiore */
+/* Ruolo in light mode: tono più scuro e sobrio */
+.light .guest-role {
+  color: #b89e00;
+}
+
+/* Ruolo in dark mode: giallo pieno ad alto contrasto */
+.dark .guest-role {
+  color: #fff200;
+}
+
+/* BOTTOM: bio + link */
 .guest-bottom {
   border-top: 1px solid var(--color-border);
   padding-top: var(--spacing-sm);
   margin-top: var(--spacing-sm);
 }
 
-/* Bio dentro il bottom */
+/* Bio: una sola definizione, leggibile in entrambi i temi */
 .guest-bio {
-  margin: 0 0 0.5rem 0;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--guest-card-fg);
 }
 
-/* Link */
+/* Link tipo "chip", molto minimal */
 .guest-links a {
-  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background-color: transparent;
   color: inherit;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  text-decoration: none;
+  transition:
+    background-color 0.18s ease,
+    color 0.18s ease,
+    transform 0.18s ease,
+    border-color 0.18s ease;
+}
+
+.light .guest-links a {
+  border-color: rgba(0, 0, 0, 0.14);
+}
+
+.guest-links a:hover {
+  background-color: var(--color-secondary);
+  color: #000;
+  border-color: transparent;
+  transform: translateY(-1px);
 }
 
 
@@ -1285,6 +1461,24 @@ body.light section.info-block.highlight {
     grid-template-columns: minmax(0, 1fr);
   }
 
+  .program-hero {
+    padding-bottom: var(--spacing-lg);
+  }
+
+  .timeline {
+    margin-top: var(--spacing-md);
+    padding-left: 1.5rem;
+  }
+
+  .event {
+    grid-template-columns: minmax(0, 70px) minmax(0, 1fr);
+    padding: var(--spacing-sm);
+  }
+
+  .event-time {
+    justify-content: flex-start;
+  }
+
   /* Griglia delle card: una colonna sola */
   .guests-grid {
     grid-template-columns: 1fr;
@@ -1467,12 +1661,18 @@ body.light section.info-block.highlight {
 }
 
 .light #nav-menu a {
-  color: #000;
+  color: #111111;
   border-bottom: 1px solid rgba(0, 0, 0, 0.06);
 }
 
 .light #nav-menu a.active {
-  color: #c2a800;
+  color: #111111; /* niente testo giallo: massimo contrasto */
+  background-color: rgba(255, 242, 0, 0.14); /* leggero velo giallo sotto */
+  font-weight: 500;
+}
+
+.light #nav-menu a.active::before {
+  background: #e0c700; /* giallo caldo ma non accecante */
 }
 
 /* Dark mode – menu mobile */
@@ -1555,6 +1755,51 @@ body.light section.info-block.highlight {
   opacity: 1;
   transform: translateY(-50%) scaleY(1);
 }
+
+.program-hero {
+    text-align: left;
+    padding-bottom: var(--spacing-lg);
+  }
+
+  .day-nav {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+    margin-top: var(--spacing-md);
+    padding: 0;
+    border-radius: 0;
+    background: transparent;
+    backdrop-filter: none;
+  }
+
+  .day-nav .btn.secondary {
+    width: 100%;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    border-radius: 999px;
+    background-color: rgba(0, 0, 0, 0.14);
+    font-size: 0.8rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    border: 1px solid transparent;
+  }
+
+  .light .day-nav .btn.secondary {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+
+  .day-nav .btn.secondary:hover {
+    background-color: var(--color-secondary);
+    color: #000;
+    transform: translateY(-1px);
+  }
+
+  /* Opzionale: evidenzia il giorno 1 come default attivo */
+  .day-nav .btn.secondary:first-child {
+    background-color: var(--color-secondary);
+    color: #000;
+  }
 
 }
 
