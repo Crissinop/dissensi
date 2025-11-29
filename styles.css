@@ -524,14 +524,17 @@ a:focus {
 }
 
 #fade-image-container.visible {
-  opacity: 1;
+  opacity: 0.9;
 }
 
 #fade-image-container img {
   width: 100%;
   height: auto;
   display: block;
-  object-fit: cover; /* opzione per ritagliare l'immagine */
+  object-fit: cover;        /* riempie il contenitore senza deformarsi */
+  filter: blur(3.5px);      /* blur leggero ma percepibile */
+  transform: scale(1.02);   /* evita micro-bordi ai lati dopo il blur */
+  transform-origin: center;
 }
 
 .slideshow {
@@ -1625,26 +1628,26 @@ body.light section.info-block.highlight {
   .overlay-text,
   .suboverlay-text {
     right: 50%;
-    transform: translate(-50%, 0); 
+    transform: translate(-50%, 0);
     text-align: center;
     white-space: normal;
     width: 90%;
     pointer-events: none;
+
+    /* layer elegante dietro al testo */
+    background: rgba(0, 0, 0, 0.01);
+    padding: 0.6rem 1rem;
+    backdrop-filter: blur(1.5px);
   }
 
-  /* Titolo principale */
   .overlay-text h2 {
-    font-size: clamp(2.2rem, 6vw, 3.4rem); 
+    font-size: clamp(1.7rem, 7vw, 2.4rem);
     line-height: 1.1;
-    font-weight: 700;
   }
 
-  /* Data */
   .suboverlay-text h2 {
-    font-size: clamp(1.1rem, 3vw, 1.6rem);
-    margin-top: 0.6rem;
+    font-size: clamp(1rem, 4.5vw, 1.4rem);
     line-height: 1.2;
-    font-weight: 400;
   }
 
   /* Posizione verticale ottimizzata */
@@ -1658,7 +1661,7 @@ body.light section.info-block.highlight {
 
   /* Posizione quando diventa visibile */
   .overlay-text.visible{
-    transform: translate(-8%, 0);
+    transform: translate(-15%, 0);
   }
 
   .suboverlay-text.visible {
@@ -1689,7 +1692,11 @@ body.light section.info-block.highlight {
   }
 
   .slideshow::after {
-    background: rgba(0, 0, 0, 0.4); /* mobile: 40% nero */
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.65),
+      rgba(0, 0, 0, 0.35)
+    );
   }
 
 /* Contenitore mobile */
