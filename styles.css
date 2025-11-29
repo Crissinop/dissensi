@@ -985,7 +985,7 @@ body.light section.info-block.highlight {
 
 .signup-section .signup-image {
   border-radius: var(--radius-lg);
-  min-height: 220px;
+  min-height: 260px;
   background-image:
     linear-gradient(135deg, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.45)),
     url("media/images/discorso.jpg");
@@ -1004,7 +1004,7 @@ body.light section.info-block.highlight {
 
   .signup-section .signup-image {
     order: -1;
-    min-height: 180px;
+    min-height: 260px;
   }
 }
 
