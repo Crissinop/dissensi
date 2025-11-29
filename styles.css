@@ -618,7 +618,7 @@ a:focus {
 
 .suboverlay-text.visible {
   opacity: 1;
-  transform: translate(0, 80%); /* arriva da sinistra e si ferma leggermente sotto */
+  transform: translate(3%, 80%); /* arriva da sinistra e si ferma leggermente sotto */
 }
 
 
@@ -1666,7 +1666,7 @@ body.light section.info-block.highlight {
   }
 
   .suboverlay-text.visible {
-    transform: translate(-19%, 0);
+    transform: translate(-22%, 0);
   }
 
   .hero {
