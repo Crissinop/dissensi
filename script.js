@@ -45,32 +45,31 @@ themeToggle.addEventListener("click", () => {
   // ---------------------------
   // HAMBURGER MENU OTTIMIZZATO
   // ---------------------------
-  const hamburger = document.querySelector(".hamburger");
-  const navMenu = document.getElementById("nav-menu");
-  const overlay = document.getElementById("menu-overlay");
-  const body = document.body;
+const hamburger = document.querySelector('.hamburger');
+const navMenu   = document.getElementById('nav-menu');
+const overlay   = document.getElementById('menu-overlay');
+const body      = document.body;
 
-  const closeMenu = () => {
-    navMenu.classList.remove("open");
-    hamburger.classList.remove("open");
-    overlay.classList.remove("active");
-    body.classList.remove("menu-open");
-    hamburger.setAttribute("aria-expanded", "false");
-  };
+const closeMenu = () => {
+  navMenu.classList.remove('open');
+  hamburger.classList.remove('open');
+  if (overlay) overlay.classList.remove('active');
+  body.classList.remove('menu-open');
+  hamburger.setAttribute('aria-expanded', 'false');
+};
 
-  hamburger.addEventListener("click", () => {
-    const isOpen = navMenu.classList.toggle("open");
-    hamburger.classList.toggle("open", isOpen);
-    overlay.classList.toggle("active", isOpen);
-    body.classList.toggle("menu-open", isOpen);
-    hamburger.setAttribute("aria-expanded", String(isOpen));
-  });
+hamburger.addEventListener('click', () => {
+  const isOpen = navMenu.classList.toggle('open');
+  hamburger.classList.toggle('open');
+  if (overlay) overlay.classList.toggle('active', isOpen);
+  body.classList.toggle('menu-open', isOpen);
+  hamburger.setAttribute('aria-expanded', String(isOpen));
+});
 
-  overlay.addEventListener("click", closeMenu);
+if (overlay) {
+  overlay.addEventListener('click', closeMenu);
+}
 
-  navMenu.querySelectorAll("a").forEach((link) => {
-    link.addEventListener("click", closeMenu);
-  });
 
   
   // ---------------------------
