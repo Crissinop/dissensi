@@ -355,6 +355,11 @@ p {
   transform-origin: center;
 }
 
+/* Nascondi le linee dell'hamburger quando il menu mobile è aperto */
+.hamburger.open .line {
+  opacity: 0;
+}
+
 /* Hamburger animazione X */
 .hamburger.open .line:nth-child(1) {
   transform: rotate(45deg) translate(5px, 5px);

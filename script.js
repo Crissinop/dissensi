@@ -142,7 +142,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const menuIsOpen = navMenu.classList.contains('open');
 
     // se il menu è chiuso, abilita lo swipe solo partendo dal bordo destro
-    if (!menuIsOpen && touchStartX < window.innerWidth - 40) {
+    if (!menuIsOpen && touchStartX < window.innerWidth - 80) {
       touchStartX = null;
       return;
     }
