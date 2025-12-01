@@ -1027,180 +1027,89 @@ body.light section.info-block.highlight {
 /* OSPITI                                                            */
 /* ----------------------------------------------------------------- */
 
-/* Griglia esterna: 2 card per riga su desktop, 1 su mobile */
-.guests-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: var(--spacing-md);
-  margin-top: var(--spacing-md);
-}
-
-@media (max-width: 720px) {
-  .guests-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* Card ospiti – base, minimal */
-.guest-card {
-  background-color: var(--guest-card-bg);
+.guest-row {
+  display: flex;
+  align-items: stretch;
+  padding: 2rem 0;
+  background: var(--guest-card-bg);
   color: var(--guest-card-fg);
   border-radius: 16px;
-  padding: calc(var(--spacing-md) * 1.1);
-  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
-  border: 1px solid rgba(255, 255, 255, 0.04);
-  overflow: hidden;
-  position: relative;
-  transition:
-    transform 0.22s ease-out,
-    box-shadow 0.22s ease-out,
-    border-color 0.22s ease-out,
-    background-color 0.22s ease-out;
+  margin-bottom: 2rem;
+  box-shadow: 0 10px 30px var(--shadow);
 }
 
-/* Accento molto leggero: alone diagonale magenta */
-.guest-card::before {
-  content: "";
-  position: absolute;
-  inset: -40%;
-  background: radial-gradient(circle at top left,
-              rgba(228, 0, 106, 0.22),
-              transparent 55%);
-  opacity: 0.18;
-  pointer-events: none;
-  transition: opacity 0.22s ease-out;
+.guest-row.left-img .guest-image {
+  order: 1;
+}
+.guest-row.left-img .guest-info {
+  order: 2;
+  padding-left: 2.5rem;
+}
+.guest-row.right-img .guest-image {
+  order: 2;
+}
+.guest-row.right-img .guest-info {
+  order: 1;
+  padding-right: 2.5rem;
 }
 
-/* Light / dark: piccole variazioni di ombra e bordo */
-.light .guest-card {
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
-  border-color: rgba(0, 0, 0, 0.04);
-}
-
-.dark .guest-card {
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.7);
-  border-color: rgba(255, 255, 255, 0.05);
-}
-
-/* Hover desktop: sollevamento sobrio */
-@media (hover: hover) and (pointer: fine) {
-  .guest-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 20px 44px rgba(0, 0, 0, 0.6);
-    border-color: rgba(255, 242, 0, 0.4);
-  }
-
-  .guest-card:hover::before {
-    opacity: 0.26;
-  }
-}
-
-/* TOP: immagine | nome + ruolo */
-.guest-top {
-  display: grid;
-  grid-template-columns: 120px 1fr;
-  gap: var(--spacing-md);
-  align-items: center;
-}
-
-/* Contenitore immagine */
-.guest-image-box {
-  width: 120px;
-  height: 120px;
-  border-radius: 999px;
-  overflow: hidden;
-  border: 1px solid rgba(255, 242, 0, 0.55);
-}
-
-/* Immagine */
-.guest-photo {
-  display: block;
-  width: 100%;
-  height: 100%;
+.guest-image img {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
   object-fit: cover;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.18);
+  background: white;
 }
 
-/* Nome e ruolo */
-.guest-role-box {
+.guest-info {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 0.25rem;
+  min-width: 0;
+  flex: 1;
 }
 
-.guest-role-box h2 {
-  font-size: 1.25rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+.guest-info h2 {
+  font-family: 'AlfaSlabOne', Impact, sans-serif;
+  font-size: 2rem;
+  margin-bottom: 0.4rem;
+  letter-spacing: 0.07em;
 }
 
-/* Ruolo – base */
 .guest-role {
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 0.16em;
-  opacity: 0.9;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--color-secondary);
+  margin-bottom: 1.2rem;
+  letter-spacing: 0.10em;
 }
 
-/* Ruolo in light mode: tono più scuro e sobrio */
-.light .guest-role {
-  color: #b89e00;
-}
-
-/* Ruolo in dark mode: giallo pieno ad alto contrasto */
-.dark .guest-role {
-  color: #fff200;
-}
-
-/* BOTTOM: bio + link */
-.guest-bottom {
-  border-top: 1px solid var(--color-border);
-  padding-top: var(--spacing-sm);
-  margin-top: var(--spacing-sm);
-}
-
-/* Bio: una sola definizione, leggibile in entrambi i temi */
 .guest-bio {
-  font-size: 0.9rem;
-  line-height: 1.6;
+  font-size: 1rem;
+  line-height: 1.7;
   color: var(--guest-card-fg);
+  text-align: justify;
+  margin-bottom: 1rem;
 }
 
-.guest-bio {
-  justify-content: left;
-}
-
-/* Link tipo "chip", molto minimal */
-.guest-links a {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  padding: 0.35rem 0.9rem;
+.guest-link {
+  display: inline-block;
+  font-size: 0.95rem;
+  padding: 0.4rem 1.1rem;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  background-color: transparent;
-  color: inherit;
-  font-size: 0.8rem;
+  background: var(--color-secondary);
+  color: var(--color-black);
   text-transform: uppercase;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.13em;
   text-decoration: none;
-  transition:
-    background-color 0.18s ease,
-    color 0.18s ease,
-    transform 0.18s ease,
-    border-color 0.18s ease;
+  transition: background 0.18s, color 0.18s;
+}
+.guest-link:hover {
+  background: var(--color-primary);
+  color: var(--color-white);
 }
 
-.light .guest-links a {
-  border-color: rgba(0, 0, 0, 0.14);
-}
-
-.guest-links a:hover {
-  background-color: var(--color-secondary);
-  color: #000;
-  border-color: transparent;
-  transform: translateY(-1px);
-}
 
 
 /* ----------------------------------------------------------------- */
@@ -2010,6 +1919,22 @@ body.light section.info-block.highlight {
 
   .hero-video {
     max-width: 90%; /* adatta il video alla larghezza del device */
+  }
+
+  .guest-row {
+    flex-direction: column;
+    align-items: center;
+  }
+  .guest-row .guest-image,
+  .guest-row .guest-info {
+    order: unset;
+    padding: 0 !important;
+    max-width: 100%;
+  }
+  .guest-image img {
+    width: 120px;
+    height: 120px;
+    margin-bottom: 1.1rem;
   }
 }
 
