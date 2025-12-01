@@ -1970,20 +1970,58 @@ body.light section.info-block.highlight {
 
   .guest-row {
     padding: 1.6rem 1.4rem;
+    gap: 1rem;
   }
 
+  /* Header sempre colonna, ignorando alternanza desktop */
   .guest-header {
-    grid-template-columns: 1fr;
-    row-gap: 0.9rem;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center;
+    text-align: center;
+    gap: 0.55rem;
+  }
+
+  /* Annulla l’ordine impostato da left-img/right-img */
+  .guest-row.left-img .guest-avatar,
+  .guest-row.right-img .guest-avatar,
+  .guest-row.left-img .guest-heading,
+  .guest-row.right-img .guest-heading {
+    order: 0 !important;
+  }
+
+  /* Ordine verticale desiderato nel box: 1) foto 2) nome 3) titolo */
+  .guest-avatar {
+    order: 1 !important;
+  }
+
+  .guest-heading {
+    order: 2 !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.1rem;
+  }
+
+  .guest-heading h2 {
+    order: 1 !important;
+    margin: 0;
     text-align: center;
   }
 
-  .guest-avatar {
-    order: 1;
-    justify-self: center;
+  .guest-heading .guest-role {
+    order: 2 !important;
+    margin: 0;
+    text-align: center;
   }
-  .guest-heading {
-    order: 2;
+
+  /* Corpo: 4) descrizione 5) bottone */
+  .guest-body {
+    order: 3 !important;
+    margin-top: 0.8rem;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
   }
 
   .guest-bio {
@@ -1992,6 +2030,7 @@ body.light section.info-block.highlight {
 
   .guest-link {
     align-self: center;
+    margin-top: 0.7rem;
   }
 }
 
