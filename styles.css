@@ -60,7 +60,7 @@
   --card-fg: #111111;
   --overlay-bg: rgba(255,255,255,0.85);
   --hero-bg: rgba(255,255,255,0.6);
-  --nav-bg: rgba(255,255,255,0.2);
+  --nav-bg: rgba(230, 230, 230, 0.96);
   --shadow: rgba(0,0,0,0.1);
   --accent: #e63946;
 
@@ -228,6 +228,7 @@ body {
   transition: background-color var(--transition-fast), backdrop-filter var(--transition-fast);
 }
 
+
 /* ----------------------------------------------------------------- */
 /* Proprietà Testo                                                   */
 /* ----------------------------------------------------------------- */
@@ -325,7 +326,7 @@ p {
 }
 
 .logo img {
-  width: 300px;       /* larghezza fissa per desktop */
+  width: 50px;       /* larghezza fissa per desktop */
   height: auto;
   max-width: 100%;    /* per non oltrepassare il contenitore */
   display: block;
@@ -1589,7 +1590,7 @@ body.light section.info-block.highlight {
   }
 
   .logo img {
-    width: 120px;
+    width: 50px;
   }
 
   .page-hero {
