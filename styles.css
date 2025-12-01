@@ -1166,6 +1166,10 @@ body.light section.info-block.highlight {
   color: var(--guest-card-fg);
 }
 
+.guest-bio {
+  justify-content: left;
+}
+
 /* Link tipo "chip", molto minimal */
 .guest-links a {
   display: inline-flex;
