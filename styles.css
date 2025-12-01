@@ -224,7 +224,7 @@ body {
   padding: var(--spacing-sm) var(--spacing-lg);
   background: var(--nav-bg);
   border-bottom: 2px solid var(--color-primary);
-  backdrop-filter: blur(14px);
+  backdrop-filter: blur(12px);
   transition: background-color var(--transition-fast), backdrop-filter var(--transition-fast);
 }
 
@@ -333,10 +333,9 @@ p {
 
 
 /* ----------------------------------------------------------------- */
-/* HAMBURGER                                                         */
+/* HAMBURGER */
 /* ----------------------------------------------------------------- */
 
-/* HAMBURGER */
 .hamburger {
   display: none;
   flex-direction: column;
@@ -359,7 +358,7 @@ p {
   transform-origin: center;
 }
 
-/* Animazione in X quando il menu è aperto */
+/* Animazione in X */
 .hamburger.open .line:nth-child(1) {
   transform: rotate(45deg) translate(5px, 5px);
 }
@@ -1412,7 +1411,7 @@ body.light section.info-block.highlight {
 
 @media (max-width: 480px) {
   .overlay-text h2 {
-    font-size: clamp(1.7rem, 9vw, 2.4rem);
+    font-size: clamp(2.1rem, 10vw, 2.8rem);
   }
 
   .suboverlay-text h2 {
@@ -1534,7 +1533,7 @@ body.light section.info-block.highlight {
   .hamburger {
     align-items: center;
     display: flex;
-    position: fixed;
+    position: static;
     top: 1.1rem;
     right: 1.1rem;
     z-index: 30;
@@ -1703,6 +1702,17 @@ body.light section.info-block.highlight {
   .info-text p {
     font-size: 0.9rem;
   }
+
+  #theme-toggle {
+    width: 36px;
+    height: 36px;
+    margin-right: 0.75rem; /* avvicina all'hamburger */
+  }
+
+  #theme-toggle .icon-sun,
+  #theme-toggle .icon-moon {
+    font-size: 1rem; /* riduce leggermente l'icona interna */
+  }
 }
 
 
@@ -1712,49 +1722,50 @@ body.light section.info-block.highlight {
 
 @media (max-width: 768px) {
 
-  /* Contenitore testo */
-  .overlay-text,
-  .suboverlay-text {
-    right: 50%;
-    transform: translate(-50%, 0);
-    text-align: center;
-    white-space: normal;
-    width: 90%;
-    pointer-events: none;
+/* Contenitore testo – stessa colonna, animazione da sinistra */
+.overlay-text,
+.suboverlay-text {
+  left: 8%;          /* margine fisso dal bordo sinistro */
+  right: auto;
+  text-align: left;
+  white-space: normal;
+  width: 84%;        /* 100% - 2*8% */
+  pointer-events: none;
+  background: rgba(0, 0, 0, 0.01);
+  padding: 0.6rem 0;
+  backdrop-filter: blur(1.5px);
+  transform: translateX(-20%);   /* stato iniziale: fuori a sinistra */
+  opacity: 0;
+  transition: transform 1.2s ease, opacity 1.2s ease;
+}
 
-    /* layer elegante dietro al testo */
-    background: rgba(0, 0, 0, 0.01);
-    padding: 0.6rem 1rem;
-    backdrop-filter: blur(1.5px);
-  }
+/* Dimensioni testo (come già avevi) */
+.overlay-text h2 {
+  font-size: clamp(2.1rem, 8vw, 2.8rem);
+  line-height: 1.1;
+}
 
-  .overlay-text h2 {
-    font-size: clamp(1.7rem, 7vw, 2.4rem);
-    line-height: 1.1;
-  }
+.suboverlay-text h2 {
+  font-size: clamp(1rem, 4.5vw, 1.4rem);
+  line-height: 1.2;
+}
 
-  .suboverlay-text h2 {
-    font-size: clamp(1rem, 4.5vw, 1.4rem);
-    line-height: 1.2;
-  }
+/* Posizione verticale */
+.overlay-text {
+  top: 32%;
+}
 
-  /* Posizione verticale ottimizzata */
-  .overlay-text {
-    top: 32%;
-  }
+.suboverlay-text {
+  top: 50%;
+}
 
-  .suboverlay-text {
-    top: 50%;
-  }
+/* Stato finale visibile: stessa colonna, nessuno shift X */
+.overlay-text.visible,
+.suboverlay-text.visible {
+  transform: translateX(0);
+  opacity: 1;
+}
 
-  /* Posizione quando diventa visibile */
-  .overlay-text.visible{
-    transform: translate(-15%, 0);
-  }
-
-  .suboverlay-text.visible {
-    transform: translate(-22%, 0);
-  }
 
   .hero {
     padding: var(--spacing-lg);
@@ -1991,6 +2002,30 @@ body.light section.info-block.highlight {
 
   .hero-video {
     max-width: 90%; /* adatta il video alla larghezza del device */
+  }
+}
+
+
+/* ---------------------------- */
+/* DESKTOP (> 721px)             */
+/* ---------------------------- */
+/* Desktop: il nav resta sempre inline, anche se .open è presente
+   (utile quando si torna da una emulazione mobile). */
+@media (min-width: 721px) {
+  .main-nav {
+    position: static;
+    transform: none !important;
+    width: auto;
+    height: auto;
+    padding: 0;
+    background: transparent;
+    display: flex;
+    flex-direction: row;
+    gap: 0.75rem;
+  }
+
+  .main-nav.open {
+    transform: none !important;
   }
 }
 
