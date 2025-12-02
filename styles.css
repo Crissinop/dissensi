@@ -1978,37 +1978,6 @@ body.light section.info-block.highlight {
     white-space: normal;
   }
 
-  .guest-row {
-    padding: 1.6rem 1.4rem;
-    gap: 1rem;
-  }
-
-  /* Header sempre colonna, ignorando alternanza desktop */
-  .guest-header {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center;
-    text-align: center;
-    gap: 0.55rem;
-  }
-
-  /* Annulla l’ordine impostato da left-img/right-img */
-  .guest-row.left-img .guest-avatar,
-  .guest-row.right-img .guest-avatar,
-  .guest-row.left-img .guest-heading,
-  .guest-row.right-img .guest-heading {
-    order: 0 !important;
-  }
-
-  /* container header: sempre colonna su mobile */
-  .guest-header {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    text-align: center !important;
-    gap: 0.5rem !important;
-  }
-
   /* Assicuriamoci che il comportamento desktop alternato non influisca qui:
      usiamo selettori > per prendere i figli diretti e imporre ordine. */
   .guest-header > .guest-avatar  { order: 1 !important; }
