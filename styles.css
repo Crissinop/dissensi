@@ -1978,6 +1978,57 @@ body.light section.info-block.highlight {
     white-space: normal;
   }
 
+  .guest-row {
+    padding: 1.6rem 1.4rem;
+    gap: 1rem;
+  }
+
+  /* Header sempre colonna, ignorando alternanza desktop */
+  .guest-header {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center;
+    text-align: center;
+    gap: 0.55rem;
+  }
+
+  /* Annulla l’ordine impostato da left-img/right-img */
+  .guest-row.left-img .guest-avatar,
+  .guest-row.right-img .guest-avatar,
+  .guest-row.left-img .guest-heading,
+  .guest-row.right-img .guest-heading {
+    order: 0 !important;
+  }
+
+  /* container header: sempre colonna su mobile */
+  .guest-header {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    gap: 0.5rem !important;
+  }
+
+  /* Assicuriamoci che il comportamento desktop alternato non influisca qui:
+     usiamo selettori > per prendere i figli diretti e imporre ordine. */
+  .guest-header > .guest-avatar  { order: 1 !important; }
+  .guest-header > .guest-heading { order: 2 !important; }
+
+  /* All'interno di guest-heading: titolo sopra ruolo (se non già così) */
+  .guest-heading { display: flex !important; flex-direction: column !important; gap: 0.15rem !important; align-items: center !important; }
+  .guest-heading > h2 { order: 1 !important; margin: 0 !important; text-align: center !important; }
+  .guest-heading > .guest-role { order: 2 !important; margin: 0 !important; text-align: center !important; }
+
+  /* Corpo (bio + link) segue dopo l'header */
+  .guest-body { order: 3 !important; width: 100% !important; margin-top: 0.6rem !important; }
+  .guest-bio  { text-align: justify !important; max-width: 100% !important; }
+
+  /* centratura del link/CTA */
+  .guest-link { align-self: center !important; margin-top: 0.6rem !important; }
+
+  /* Piccole ottimizzazioni: riduci gap/padding su mobile */
+  .guest-row { padding-left: var(--spacing-md) !important; padding-right: var(--spacing-md) !important; }
+
 }
 
 
