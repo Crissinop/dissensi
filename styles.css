@@ -1047,12 +1047,27 @@ body.light section.info-block.highlight {
   overflow: hidden;
 }
 
-/* fascia alta: nome+ruolo+avatar su una riga */
+/* desktop base */
 .guest-header {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  display: flex;
   align-items: center;
-  column-gap: clamp(1.4rem, 3vw, 2rem);
+  justify-content: center;
+  gap: 1.6rem;
+}
+
+.guest-heading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+/* nuova riga per nome + icona */
+.guest-heading-row {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
 }
 
 /* alternanza: cambia solo l’ordine, non l’allineamento del testo */
@@ -1068,16 +1083,8 @@ body.light section.info-block.highlight {
   height: clamp(104px, 9vw, 124px);
   border-radius: 999px;
   object-fit: cover;
-  border: 2px solid rgba(255,242,0,0.9);
+  border: 1px solid rgba(255,242,0,0.9);
   box-shadow: 0 16px 36px rgba(0,0,0,0.7);
-}
-
-
-/* heading testo */
-.guest-heading {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
 }
 
 .guest-heading h2 {
@@ -1113,38 +1120,57 @@ body.light section.info-block.highlight {
   margin: 0;
 }
 
-/* CTA profilo */
+/* CTA profilo - POSIZIONE MAGNETICA CHE SEGUE L'ALTERNANZA */
 .guest-link {
-  align-self: flex-start;
+  position: static;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 42px;
-  height: 42px;
+  width: 32px;
+  height: 32px;
   border-radius: 999px;
-  background: linear-gradient(135deg, #fff200, #ffcc00);
-  color: #000;
-  font-size: 1.1rem;
+  background: transparent;                 /* niente gradiente pieno */
+  border: 1px solid rgba(255, 242, 0, 0.6);/* sottile richiamo al giallo di brand */
+  color: var(--color-secondary);           /* solo il glyph colorato */
+  font-size: 0.95rem;
   text-decoration: none;
-  border: none;
-  box-shadow: 0 10px 28px rgba(0,0,0,0.65);
+  box-shadow: none;
   transition:
-    transform 0.24s cubic-bezier(0.19, 1, 0.22, 1),
-    box-shadow 0.24s cubic-bezier(0.19, 1, 0.22, 1),
-    filter 0.2s ease-out,
-    background 0.2s ease-out;
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    transform 0.16s ease;
 }
 
 .guest-link i {
   line-height: 1;
+  filter: none;                            /* niente drop-shadow sul glyph */
 }
 
+.guest-row:hover .guest-link {
+  top: auto;
+  right: auto;
+}
+
+.guest-link i {
+  line-height: 1;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+/* Hover effect - magnetic pull */
 .guest-link:hover {
-  transform: translateY(-3px) scale(1.04);
-  filter: brightness(1.05);
-  box-shadow: 0 18px 40px rgba(0,0,0,0.85);
+  transform: scale(1.15) rotate(5deg);
+  border-color: rgba(255, 255, 255, 0.6);
+  box-shadow: 
+    0 12px 48px rgba(214, 36, 159, 0.6),
+    0 6px 24px rgba(253, 89, 73, 0.5),
+    0 0 0 8px rgba(214, 36, 159, 0.1),
+    inset 0 1px 3px rgba(255, 255, 255, 0.4);
 }
 
+/* Effetto magnetic quando hover sulla card */
+.guest-row:hover .guest-link {
+  transform: scale(1.05);
+}
 
 /* hover complessivo */
 @media (hover: hover) and (pointer: fine) {
@@ -1174,6 +1200,7 @@ body.light section.info-block.highlight {
   .guest-row:hover::after {
     opacity: 1;
   }
+  
 }
 
 
@@ -1978,93 +2005,66 @@ body.light section.info-block.highlight {
     white-space: normal;
   }
 
-  /* Assicuriamoci che il comportamento desktop alternato non influisca qui:
-     usiamo selettori > per prendere i figli diretti e imporre ordine. */
-  .guest-header > .guest-avatar  { order: 1 !important; }
-  .guest-header > .guest-heading { order: 2 !important; }
-
-  /* All'interno di guest-heading: titolo sopra ruolo (se non già così) */
-  .guest-heading { display: flex !important; flex-direction: column !important; gap: 0.15rem !important; align-items: center !important; }
-  .guest-heading > h2 { order: 1 !important; margin: 0 !important; text-align: center !important; }
-  .guest-heading > .guest-role { order: 2 !important; margin: 0 !important; text-align: center !important; }
-
-  /* Corpo (bio + link) segue dopo l'header */
-  .guest-body { order: 3 !important; width: 100% !important; margin-top: 0.6rem !important; }
-  .guest-bio  { text-align: justify !important; max-width: 100% !important; }
-
-  /* centratura del link/CTA */
-  .guest-link { align-self: center !important; margin-top: 0.6rem !important; }
-
-  /* Piccole ottimizzazioni: riduci gap/padding su mobile */
-  .guest-row { padding-left: var(--spacing-md) !important; padding-right: var(--spacing-md) !important; }
-
 }
 
 
-/* ---------------------------- */
-/* MOBILE (< 900px)             */
-/* ---------------------------- */
+/* MOBILE: sposta l'icona reale in fondo alla guest card, centralizzata */
 @media (max-width: 900px) {
-  .hero {
-    grid-template-columns: 1fr; /* una colonna solo */
-    gap: var(--spacing-lg);
-    padding: var(--spacing-lg);
-  }
 
-  .hero-video {
-    max-width: 90%; /* adatta il video alla larghezza del device */
-  }
-
+  /* Assicuriamoci che la card sia riferimento per il positioning assoluto */
   .guest-row {
-    padding: 1.6rem 1.4rem;
+    position: relative;        /* necessario per bottom positioning */
+    padding-bottom: 3.2rem;    /* spazio per l'icona al fondo */
+    display: flex;
+    flex-direction: column;
     gap: 1rem;
+    align-items: center;
   }
 
-  /* Header sempre colonna, ignorando alternanza desktop */
+  /* Layout header in colonna (foto, nome, ruolo) */
   .guest-header {
-    display: flex !important;
-    flex-direction: column !important;
+    display: flex;
+    flex-direction: column;
     align-items: center;
     text-align: center;
-    gap: 0.55rem;
+    gap: 0.45rem;
+    width: 100%;
   }
 
-  /* Annulla l’ordine impostato da left-img/right-img */
-  .guest-row.left-img .guest-avatar,
-  .guest-row.right-img .guest-avatar,
-  .guest-row.left-img .guest-heading,
-  .guest-row.right-img .guest-heading {
-    order: 0 !important;
+  .guest-avatar { order: 1; }
+  .guest-heading h2 { order: 2; margin-top: 0.4rem; }
+  .guest-heading .guest-role { order: 3; margin-top: 0.15rem; }
+
+  /* Bio subito dopo */
+  .guest-body { order: 4; width: 100%; margin-top: 0.6rem; }
+
+  /* ---- qui la parte importante: posizioniamo l'icona REALE in fondo ---- */
+  .guest-row > .guest-heading .guest-link,
+  .guest-row .guest-link { /* selettore robusto per catturare il link */
+    display: inline-flex !important;   /* forziamo la visualizzazione su mobile */
+    position: absolute;
+    bottom: 0.9rem;                     /* distanza dal bordo inferiore della card */
+    left: 50%;
+    transform: translateX(-50%);
+    align-items: center;
+    justify-content: center;
+
+    width: 38px;
+    height: 38px;
+    font-size: 1rem;
+    border-width: 2px;
+
+    z-index: 6;                         /* sopra la bio se necessario */
+    background: transparent;
+    pointer-events: auto;               /* cliccabile */
   }
 
-  /* container header: sempre colonna su mobile */
-  .guest-header {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    text-align: center !important;
-    gap: 0.5rem !important;
-  }
+  /* Se avevi una regola specifica che nascondeva .guest-heading-row > .guest-link, la sovrascriviamo */
+  .guest-heading-row > .guest-link { display: none; } /* lasciare questa riga se vuoi che non compaia accanto al titolo */
 
-  /* Assicuriamoci che il comportamento desktop alternato non influisca qui:
-     usiamo selettori > per prendere i figli diretti e imporre ordine. */
-  .guest-header > .guest-avatar  { order: 1 !important; }
-  .guest-header > .guest-heading { order: 2 !important; }
+  /* piccola regolazione: evita che la bio finisca esattamente sotto l'icona */
+  .guest-body { padding-bottom: 1.6rem; }
 
-  /* All'interno di guest-heading: titolo sopra ruolo (se non già così) */
-  .guest-heading { display: flex !important; flex-direction: column !important; gap: 0.15rem !important; align-items: center !important; }
-  .guest-heading > h2 { order: 1 !important; margin: 0 !important; text-align: center !important; }
-  .guest-heading > .guest-role { order: 2 !important; margin: 0 !important; text-align: center !important; }
-
-  /* Corpo (bio + link) segue dopo l'header */
-  .guest-body { order: 3 !important; width: 100% !important; margin-top: 0.6rem !important; }
-  .guest-bio  { text-align: justify !important; max-width: 100% !important; }
-
-  /* centratura del link/CTA */
-  .guest-link { align-self: center !important; margin-top: 0.6rem !important; }
-
-  /* Piccole ottimizzazioni: riduci gap/padding su mobile */
-  .guest-row { padding-left: var(--spacing-md) !important; padding-right: var(--spacing-md) !important; }
 }
 
 
@@ -2105,5 +2105,50 @@ body.light section.info-block.highlight {
 
   .footer-meta-line {
     text-align: right;
+  }
+}
+
+/* DESKTOP: Alternanza sinistra/destra che segue la foto */
+@media (min-width: 901px) {
+  /* Posizioni dispari (left-img): foto a sinistra → icona a sinistra */
+  .guest-row.left-img .guest-link {
+    top: 1.5rem;
+    left: 1.5rem;
+    right: auto;
+  }
+
+  /* Posizioni pari (right-img): foto a destra → icona a destra */
+  .guest-row.right-img .guest-link {
+    top: 1.5rem;
+    right: 1.5rem;
+    left: auto;
+  }
+
+  /* Hover effect sulla card - magnetic pull */
+  .guest-row.left-img:hover .guest-link {
+    transform: scale(1.05);
+    top: 1.3rem;
+    left: 1.3rem;
+  }
+
+  .guest-row.right-img:hover .guest-link {
+    transform: scale(1.05);
+    top: 1.3rem;
+    right: 1.3rem;
+  }
+
+  /* Dispari → leggermente a sinistra */
+  .guests-list .guest-row:nth-child(odd) {
+    transform: translateX(-42px);
+  }
+
+  /* Pari → leggermente a destra */
+  .guests-list .guest-row:nth-child(even) {
+    transform: translateX(42px);
+  }
+
+  /* Transizione morbida */
+  .guests-list .guest-row {
+    transition: transform 0.3s ease;
   }
 }
