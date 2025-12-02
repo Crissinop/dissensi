@@ -1064,13 +1064,14 @@ body.light section.info-block.highlight {
 
 /* avatar compatto */
 .guest-avatar img {
-  width: clamp(92px, 8vw, 110px);
-  height: clamp(92px, 8vw, 110px);
+  width: clamp(104px, 9vw, 124px);
+  height: clamp(104px, 9vw, 124px);
   border-radius: 999px;
   object-fit: cover;
   border: 2px solid rgba(255,242,0,0.9);
-  box-shadow: 0 14px 32px rgba(0,0,0,0.65);
+  box-shadow: 0 16px 36px rgba(0,0,0,0.7);
 }
+
 
 /* heading testo */
 .guest-heading {
@@ -1118,41 +1119,58 @@ body.light section.info-block.highlight {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.55rem 1.5rem;
+  width: 42px;
+  height: 42px;
   border-radius: 999px;
-  background: linear-gradient(90deg, #fff200, #ffe600);
+  background: linear-gradient(135deg, #fff200, #ffcc00);
   color: #000;
-  font-size: 0.78rem;
-  letter-spacing: 0.26em;
-  text-transform: uppercase;
+  font-size: 1.1rem;
   text-decoration: none;
   border: none;
   box-shadow: 0 10px 28px rgba(0,0,0,0.65);
-  transition: transform 0.18s ease-out,
-              box-shadow 0.18s ease-out,
-              filter 0.18s ease-out;
+  transition:
+    transform 0.24s cubic-bezier(0.19, 1, 0.22, 1),
+    box-shadow 0.24s cubic-bezier(0.19, 1, 0.22, 1),
+    filter 0.2s ease-out,
+    background 0.2s ease-out;
 }
+
+.guest-link i {
+  line-height: 1;
+}
+
 .guest-link:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px) scale(1.04);
   filter: brightness(1.05);
-  box-shadow: 0 16px 40px rgba(0,0,0,0.8);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.85);
 }
+
 
 /* hover complessivo */
 @media (hover: hover) and (pointer: fine) {
+  .guest-row {
+    transition:
+      transform 0.32s cubic-bezier(0.19, 1, 0.22, 1),
+      box-shadow 0.32s cubic-bezier(0.19, 1, 0.22, 1),
+      border-color 0.32s ease-out,
+      background-color 0.32s ease-out;
+  }
+
   .guest-row::after {
     content: "";
     position: absolute;
     inset: 0;
     background: radial-gradient(circle at 0% 0%, rgba(228,0,106,0.22), transparent 60%);
     opacity: 0;
-    transition: opacity 0.25s ease-out;
+    transition: opacity 0.4s ease-out;
     pointer-events: none;
   }
+
   .guest-row:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 30px 70px rgba(0,0,0,0.78);
+    transform: translateY(-6px);
+    box-shadow: 0 26px 65px rgba(0,0,0,0.72);
   }
+
   .guest-row:hover::after {
     opacity: 1;
   }

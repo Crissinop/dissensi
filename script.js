@@ -7,12 +7,16 @@ document.documentElement.classList.remove('dark');
 // ---------------------------
 document.addEventListener("DOMContentLoaded", () => {
   const links = document.querySelectorAll(".scroll-link[href^='#']");
-  links.forEach((link) => {
+    links.forEach((link) => {
     link.addEventListener("click", (event) => {
       const targetId = link.getAttribute("href").slice(1);
       const target = document.getElementById(targetId);
       if (target) {
         event.preventDefault();
+
+        // chiudi eventuale menu mobile aperto
+        body.classList.remove('menu-open');
+
         const headerOffset = 80;
         const elementPosition = target.getBoundingClientRect().top + window.scrollY;
         const offsetPosition = elementPosition - headerOffset;
@@ -20,6 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   });
+
 
 
   // ---------------------------
@@ -58,20 +63,18 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!hamburger || !navMenu) return;
 
   const openMenu = () => {
-    navMenu.classList.add('open');
-    navMenu.style.transform = 'translateX(0%)';
+    navMenu.classList.add('open');          // usa solo la classe, niente scroll
     hamburger.classList.add('open');
     if (overlay) overlay.classList.add('active');
-    body.classList.add('menu-open');
+    body.classList.add('menu-open');        // blocca scroll verticale
     hamburger.setAttribute('aria-expanded', 'true');
   };
 
   const closeMenu = () => {
     navMenu.classList.remove('open');
-    navMenu.style.transform = 'translateX(100%)';
     hamburger.classList.remove('open');
     if (overlay) overlay.classList.remove('active');
-    body.classList.remove('menu-open');
+    body.classList.remove('menu-open');     // riabilita scroll
     hamburger.setAttribute('aria-expanded', 'false');
   };
 
@@ -83,6 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
       openMenu();
     }
   });
+
 
   // bottone X interno al menu
   if (navClose) {
@@ -125,13 +129,17 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const snapMenuToState = (open) => {
-    navMenu.style.transition = 'transform 0.3s ease';
+    // ripristina il controllo al CSS
+    navMenu.style.transition = '';
+    navMenu.style.transform  = '';
+
     if (open) {
       openMenu();
     } else {
       closeMenu();
     }
   };
+
 
   document.addEventListener('touchstart', (e) => {
     if (!isMobileWidth()) return;
