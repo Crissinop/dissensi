@@ -1409,12 +1409,14 @@ body.light section.info-block.highlight {
   }
 
   .hero {
-    padding: var(--spacing-sm);
+    padding: 0.5rem 0.25rem;
     gap: var(--spacing-md);
   }
 
   .hero-video {
-    max-width: 100%; /* riempie completamente lo schermo */
+    max-width: 100%;
+    width: 100%;
+    border-radius: 12px;
   }
 
   .guest-card {
@@ -1694,6 +1696,13 @@ body.light section.info-block.highlight {
   #theme-toggle .icon-sun,
   #theme-toggle .icon-moon {
     font-size: 1rem; /* riduce leggermente l'icona interna */
+  }
+
+  /* Icone social allineate al centro su mobile */
+  .footer-social {
+    width: 100%;
+    justify-content: center;
+    align-items: center;
   }
 }
 
