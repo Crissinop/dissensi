@@ -2065,6 +2065,18 @@ body.light section.info-block.highlight {
   /* piccola regolazione: evita che la bio finisca esattamente sotto l'icona */
   .guest-body { padding-bottom: 1.6rem; }
 
+  .guest-avatar {
+    order: 1;
+  }
+
+  .guest-heading h2 {
+    order: 2;
+  }
+
+  .guest-heading .guest-role {
+    order: 3;
+  }
+
 }
 
 
