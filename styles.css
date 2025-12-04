@@ -718,7 +718,7 @@ a:focus {
   padding: 0.35rem 0.45rem;
   border-radius: 999px;
   background-color: rgba(0, 0, 0, 0.12);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(1px);
 }
 
 .light .day-nav {
@@ -1921,7 +1921,7 @@ body.light section.info-block.highlight {
   pointer-events: none;
   background: rgba(0, 0, 0, 0.01);
   padding: 0.6rem 0;
-  backdrop-filter: blur(1.5px);
+  /* backdrop-filter: blur(1.5px); */
   transform: translateX(-20%);   /* stato iniziale: fuori a sinistra */
   opacity: 0;
   transition: transform 1.2s ease, opacity 1.2s ease;
@@ -2244,6 +2244,13 @@ body.light section.info-block.highlight {
 
   .guest-heading .guest-role {
     order: 3;
+  }
+
+  /* Riduzione blur su mobile */
+
+  #fade-image-container img {
+    filter: blur(1px);   /* blur molto più leggero */
+    transform: scale(1.01); /* facoltativo: riduce l’effetto ingrandimento */
   }
 
 }
