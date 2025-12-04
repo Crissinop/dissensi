@@ -687,6 +687,15 @@ a:focus {
   gap: var(--spacing-lg);
 }
 
+/* PER CENTRARE VERTICALMENTE "ISCRIZIONE AI PANEL"
+.two-columns > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 1rem;
+} */ 
+
 
 /* ----------------------------------------------------------------- */
 /* PROGRAMMA                                                         */
