@@ -1289,6 +1289,10 @@ body.light section.info-block.highlight {
 /* INFORMAZIONI                                                      */
 /* ----------------------------------------------------------------- */
 
+.two-columns h2 {
+  text-align: center;
+}
+
 /* CENTRA I PULSANTI NELLA PRIMA COLONNA DELLA GRIGLIA two-columns */
 .two-columns > div:first-child {
   display: flex;
