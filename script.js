@@ -2,6 +2,19 @@ document.documentElement.classList.add('light');
 document.documentElement.classList.remove('dark');
 
 
+// Disabilita selezione testo
+document.addEventListener("selectstart", e => e.preventDefault());
+
+// Disabilita tasto destro
+document.addEventListener("contextmenu", e => e.preventDefault());
+
+// Disabilita copia
+document.addEventListener("copy", e => e.preventDefault());
+
+// Disabilita trascinamento immagini/testo
+document.addEventListener("dragstart", e => e.preventDefault());
+
+
 // ---------------------------
 // SCROLL SMOOTH PER LINK
 // ---------------------------
