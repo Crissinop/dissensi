@@ -1246,6 +1246,55 @@ body.light section.info-block.highlight {
 
 
 /* ----------------------------------------------------------------- */
+/* INFORMAZIONI                                                      */
+/* ----------------------------------------------------------------- */
+
+/* CENTRA I PULSANTI NELLA PRIMA COLONNA DELLA GRIGLIA two-columns */
+.two-columns > div:first-child {
+  display: flex;
+  flex-direction: column;
+  align-items: center;    /* centra orizzontalmente i figli */
+  text-align: center;     /* centra il testo interno */
+  gap: 0.85rem;           /* spazio tra elementi (titolo, testo, pulsanti) */
+}
+
+/* Assicura che tutti i pulsanti/link si presentino come blocchi centrati */
+.two-columns > div:first-child .btn,
+.two-columns > div:first-child a.btn,
+.two-columns > div:first-child .text-link {
+  display: inline-block;
+  margin: 0 auto;         /* centra orizzontalmente */
+}
+
+/* Se vuoi che i pulsanti abbiano la stessa larghezza visiva */
+.two-columns > div:first-child .btn {
+  min-width: 220px;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* CENTRA il contenuto della colonna Pre-tesseramento */
+.signup-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;  /* centra il pulsante */
+  text-align: center;   /* centra il testo */
+}
+
+/* Assicura che il pulsante non erediti allineamenti strani */
+.signup-text .btn {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+/* Colore ruolo ospite solo in light mode */
+.light .guest-heading .guest-role {
+  color: var(--section-fg);
+}
+
+
+/* ----------------------------------------------------------------- */
 /* CONTATTI                                                          */
 /* ----------------------------------------------------------------- */
 
@@ -1832,7 +1881,6 @@ body.light section.info-block.highlight {
   transform: translateX(0);
   opacity: 1;
 }
-
 
   .hero {
     padding: var(--spacing-lg);
