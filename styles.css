@@ -1766,6 +1766,14 @@ body.light section.info-block.highlight {
     font-size: 1rem; /* riduce leggermente l'icona interna */
   }
 
+  /* Pulsanti su pagina Informazioni */
+  .signup-section .btn,
+  .section-inner .btn {
+    display: inline-flex;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
   /* Icone social allineate al centro su mobile */
   .footer-social {
     width: 100%;
