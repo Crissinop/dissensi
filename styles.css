@@ -1627,6 +1627,12 @@ body.light section.info-block.highlight {
     width: 90%;
     max-width: 90%;
   }
+
+  .day-blurred::after {
+    font-size: 1.2rem;
+    padding: 0.6rem 1.2rem;
+    letter-spacing: 0.06em;
+  }
 }
 
 
@@ -1884,6 +1890,12 @@ body.light section.info-block.highlight {
     width: 100%;
     justify-content: center;
     align-items: center;
+  }
+
+  .day-blurred::after {
+    font-size: 1.5rem;
+    padding: 0.75rem 1.5rem;
+    letter-spacing: 0.08em;
   }
 }
 
