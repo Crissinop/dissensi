@@ -964,7 +964,6 @@ body.light section.info-block.highlight {
   box-shadow: var(--shadow-soft);
 }
 
-
 /* Alternanza destra-sinistra */
 .info-block-inner.left-img {
   grid-template-columns: 2fr 2fr; /* immagine 1/3, testo 2/3 */
@@ -993,6 +992,47 @@ body.light section.info-block.highlight {
   font-size: 1rem;
   line-height: 1.6;
   color: var(--section-fg);
+}
+
+/* Immagine logo01.png (Chi siamo) - mantiene dimensione standard */
+.info-block-inner.left-img:has(img[src*="logo01.png"]) .info-image img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Immagine protest.jpg - AUMENTATA ma contenuta nel proprio spazio */
+.info-block-inner.right-img:has(img[src*="protest.jpg"]) .info-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+}
+
+.info-block-inner.right-img:has(img[src*="protest.jpg"]) .info-image img {
+  width: 120%;
+  max-width: 120%;
+  height: auto;
+  object-fit: cover;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+  position: relative;
+  z-index: 1;
+}
+
+/* Assicura che il testo rimanga visibile e non venga coperto */
+.info-block-inner.right-img:has(img[src*="protest.jpg"]) .info-text {
+  position: relative;
+  z-index: 2;
+  padding-right: 2rem;
+}
+
+/* Immagine people.jpg - RIDOTTA per equilibrio visivo */
+.info-block-inner.left-img:has(img[src*="people.jpg"]) .info-image img {
+  width: 75%;
+  max-width: 75%;
+  height: auto;
+  margin: 0 auto;
+  display: block;
+  object-fit: cover;
 }
 
 
@@ -1582,6 +1622,11 @@ body.light section.info-block.highlight {
   .map-box {
     padding-bottom: 75%; /* mappa più alta su smartphone, proporzioni ottimizzate */
   }
+
+  .info-block-inner.left-img:has(img[src*="people.jpg"]) .info-image img {
+    width: 90%;
+    max-width: 90%;
+  }
 }
 
 
@@ -1821,6 +1866,17 @@ body.light section.info-block.highlight {
     display: inline-flex;
     margin-left: auto;
     margin-right: auto;
+  }
+
+  .info-block-inner.right-img:has(img[src*="protest.jpg"]) .info-image img {
+    width: 100%;
+    max-width: 100%;
+    transform: scale(1);
+  }
+  
+  .info-block-inner.left-img:has(img[src*="people.jpg"]) .info-image img {
+    width: 85%;
+    max-width: 85%;
   }
 
   /* Icone social allineate al centro su mobile */
