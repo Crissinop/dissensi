@@ -537,7 +537,7 @@ a:focus {
 }
 
 #fade-image-container.visible {
-  opacity: 0.9;
+  opacity: 0.99;
 }
 
 #fade-image-container img {
