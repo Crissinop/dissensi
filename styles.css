@@ -644,11 +644,13 @@ a:focus {
 }
 
 .page-hero h1 {
+  text-align: center;
   margin: 0 0 0.3rem;
   font-size: clamp(1.8rem, 3vw, 2.3rem);
 }
 
 .page-hero p {
+  text-align: center;
   margin: 0.3rem 0 0;
   color: var(--color-muted);
 }
@@ -680,6 +682,7 @@ a:focus {
 /* Griglie */
 
 .two-columns {
+  align-items: flex-start;
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: var(--spacing-lg);
