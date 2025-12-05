@@ -397,6 +397,7 @@ p {
 /* Impedire scroll body quando menu aperto */
 body.menu-open {
   overflow: hidden;
+  position: fixed;
   width: 100%;
   height: 100%;
 }
@@ -1748,12 +1749,10 @@ body.light section.info-block.highlight {
 
   /* Pannello menu a tendina */
   .main-nav {
-    position: fixed !important;  /* FISSO rispetto al VIEWPORT */
-    top: 0 !important;           /* Sempre in alto del VIEWPORT */
-    bottom: 0 !important;        /* Si estende fino in basso del VIEWPORT */
+    position: fixed;
+    top: 0;
     right: 0;
     width: 260px;
-    height: auto !important;
     height: 100vh;
     height: 100dvh; /* Dynamic viewport per mobile moderni */
     max-height: 100vh; /* Fallback */
@@ -1966,6 +1965,7 @@ body.light section.info-block.highlight {
 /* ---------------------------- */
 
 @media (max-width: 768px) {
+
 /* Contenitore testo – stessa colonna, animazione da sinistra */
 .overlay-text,
 .suboverlay-text {
