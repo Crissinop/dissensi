@@ -1586,6 +1586,7 @@ body.light section.info-block.highlight {
 }
 
 .news-content h2 {
+  text-align: center;
   font-size: clamp(1.5rem, 4vw, 2.2rem);
   font-family: 'AlfaSlabOne', Impact, sans-serif;
   letter-spacing: 0.08em;
