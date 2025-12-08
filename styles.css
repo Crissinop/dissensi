@@ -1585,6 +1585,12 @@ body.light section.info-block.highlight {
   padding: 2.5rem;
 }
 
+.news-content .btn.primary {
+  margin: 0 auto;
+  display: block;
+  width: fit-content;
+}
+
 .news-content h2 {
   text-align: center;
   font-size: clamp(1.5rem, 4vw, 2.2rem);
@@ -1625,6 +1631,13 @@ body.light section.info-block.highlight {
   .news-meta { flex-direction: column; gap: 0.75rem; }
 }
 
+.light .news-meta {
+  color: var(--color-primary);
+}
+
+.light .news-meta span {
+  color: var(--color-primary);
+}
 
 
 /* Note generiche */
