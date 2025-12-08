@@ -1513,6 +1513,10 @@ body.light section.info-block.highlight {
   transition: background-color var(--transition-fast), color var(--transition-fast);
 }
 
+.news-item h2 {
+  text-align: center;
+}
+
 /* Note generiche */
 
 .note {
