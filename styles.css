@@ -681,6 +681,10 @@ button:focus-visible {
   color: var(--highlight-fg);
 }
 
+.section.highlight h2 {
+  text-align: center;
+}
+
 
 /* Griglie */
 
