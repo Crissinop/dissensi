@@ -681,7 +681,7 @@ button:focus-visible {
   color: var(--highlight-fg);
 }
 
-.section.highlight h2 {
+.homepage-protest-title {
   text-align: center;
 }
 
@@ -2504,6 +2504,7 @@ body.light section.info-block.highlight {
     text-align: right;
   }
 }
+
 
 /* DESKTOP: Alternanza sinistra/destra che segue la foto */
 @media (min-width: 901px) {
