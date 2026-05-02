@@ -1,0 +1,100 @@
+# =======================================================
+# DISSENSI - Configurazione Apache (.htaccess)
+# Security headers + cache + URL pulite
+# =======================================================
+
+# ---- 1. SECURITY HEADERS ----
+<IfModule mod_headers.c>
+  # Impedisce sniffing del MIME type
+  Header set X-Content-Type-Options "nosniff"
+
+  # Protezione clickjacking
+  Header set X-Frame-Options "SAMEORIGIN"
+
+  # Referrer policy: privacy ragionevole, mantiene origine per analytics same-site
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+
+  # Permissions Policy: blocca feature non usate (mic, camera, geo, ecc.)
+  Header set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()"
+
+  # HSTS: forza HTTPS per 1 anno (abilita SOLO dopo aver verificato che il sito sia su HTTPS)
+  # Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+
+  # Content Security Policy: lista whitelist delle origini consentite.
+  # Le icone sono SVG inline → niente CDN esterno richiesto.
+  Header set Content-Security-Policy "default-src 'self'; \
+    script-src 'self'; \
+    style-src 'self' 'unsafe-inline'; \
+    font-src 'self' data:; \
+    img-src 'self' data: https:; \
+    media-src 'self'; \
+    frame-src https://www.google.com https://docs.google.com; \
+    connect-src 'self'; \
+    object-src 'none'; \
+    base-uri 'self'; \
+    form-action 'self' https://docs.google.com; \
+    frame-ancestors 'self'; \
+    upgrade-insecure-requests"
+
+  # Rimuovi header che rivelano lo stack
+  Header unset X-Powered-By
+  Header unset Server
+</IfModule>
+
+# ---- 2. COMPRESSIONE ----
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/javascript application/javascript application/json image/svg+xml application/xml
+</IfModule>
+
+# ---- 3. CACHE STATICA ----
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault                              "access plus 1 month"
+  ExpiresByType text/html                     "access plus 0 seconds"
+  ExpiresByType text/css                      "access plus 1 year"
+  ExpiresByType application/javascript        "access plus 1 year"
+  ExpiresByType image/jpeg                    "access plus 6 months"
+  ExpiresByType image/png                     "access plus 6 months"
+  ExpiresByType image/webp                    "access plus 6 months"
+  ExpiresByType image/svg+xml                 "access plus 6 months"
+  ExpiresByType image/x-icon                  "access plus 1 year"
+  ExpiresByType font/woff2                    "access plus 1 year"
+  ExpiresByType video/mp4                     "access plus 6 months"
+</IfModule>
+
+# ---- 4. URL PULITE (opzionale: permette /festival oltre a /festival.html) ----
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # HTTPS forzato
+  # RewriteCond %{HTTPS} off
+  # RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+  # Rimuove .html dall'URL visualizzato (se l'utente apre /festival, serve /festival.html)
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME}\.html -f
+  RewriteRule ^(.+?)/?$ $1.html [L]
+
+  # Redirect 301 dalla versione con .html alla versione senza
+  # (opzionale, se preferisci URL "puliti")
+  # RewriteCond %{THE_REQUEST} ^[A-Z]+\s/(.+)\.html[\s?] [NC]
+  # RewriteRule ^ /%1 [R=301,L]
+</IfModule>
+
+# ---- 5. PAGINE D'ERRORE ----
+ErrorDocument 404 /404.html
+
+# ---- 6. PROTEZIONE FILE SENSIBILI ----
+<FilesMatch "(^\.|\.bak$|\.swp$|\.dist$|\.fla$|\.in[ci]$|\.log$|\.psd$|\.sh$|\.sql$|\.sublime-project$|~$)">
+  Require all denied
+</FilesMatch>
+
+# ---- 7. CHARSET DEFAULT ----
+AddDefaultCharset UTF-8
+
+# ---- 8. CORS PER FONT ----
+<FilesMatch "\.(ttf|otf|eot|woff|woff2)$">
+  <IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin "*"
+  </IfModule>
+</FilesMatch>

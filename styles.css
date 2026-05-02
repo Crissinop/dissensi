@@ -1,0 +1,1346 @@
+/* ===================================================================
+   DISSENSI – Design System
+   Strategia: variabili semantiche, mobile-first, fluid typography,
+   accessibilità WCAG AA, dark mode su prefers-color-scheme + override.
+   =================================================================== */
+
+/* -------------------------------------------------------------------
+   1. RESET MINIMALE & BASE
+   ------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+  /* Blocca overflow orizzontale a livello root: indispensabile su iOS Safari
+     quando elementi fixed con transform vengono parcheggiati fuori viewport. */
+  overflow-x: clip;
+  position: relative;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  font-family: var(--font-base);
+  font-size: var(--fs-body);
+  line-height: 1.6;
+  color: var(--fg);
+  background: var(--bg);
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow-x: clip;              /* clip > hidden: non crea containing block */
+  position: relative;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+img,
+picture,
+video,
+iframe {
+  max-width: 100%;
+  display: block;
+  height: auto;
+}
+
+img {
+  -webkit-user-drag: none;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* Focus visibile uniforme — accessibilità */
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Selezione testo brand */
+::selection {
+  background: var(--color-primary);
+  color: var(--color-white);
+}
+
+/* -------------------------------------------------------------------
+   2. DESIGN TOKENS (LIGHT MODE = default)
+   ------------------------------------------------------------------- */
+:root {
+  /* Brand */
+  --color-primary: #e4006a;
+  --color-primary-dark: #b30053;
+  --color-secondary: #fff200;
+  --color-secondary-dark: #d4cc00;
+  --color-black: #0a0a0a;
+  --color-white: #ffffff;
+
+  /* Semantic – Light */
+  --bg: #ffffff;
+  --bg-elevated: #fafafa;
+  --bg-muted: #f4f4f5;
+  --fg: #111111;
+  --fg-muted: #4a4a4a;
+  --fg-subtle: #6b6b6b;
+  --border: #e5e5e5;
+  --border-strong: #d1d1d1;
+
+  --card-bg: #ffffff;
+  --card-fg: #111111;
+  --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 4px 16px rgba(0, 0, 0, 0.06);
+  --card-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.1), 0 12px 32px rgba(0, 0, 0, 0.1);
+
+  --accent: var(--color-primary);
+  --accent-hover: var(--color-primary-dark);
+  --focus: var(--color-primary);
+
+  --header-bg: rgba(255, 255, 255, 0.85);
+  --header-border: rgba(0, 0, 0, 0.08);
+  --footer-bg: #0a0a0a;
+  --footer-fg: #f4f4f5;
+
+  --highlight-bg: linear-gradient(135deg, #fff5fa 0%, #fffce6 100%);
+  --highlight-border: rgba(228, 0, 106, 0.15);
+
+  /* Tipografia */
+  --font-base: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Inter", system-ui, sans-serif;
+
+  /* Fluid type scale (mobile → desktop) */
+  --fs-body: clamp(1rem, 0.95rem + 0.25vw, 1.0625rem);
+  --fs-sm: clamp(0.875rem, 0.85rem + 0.1vw, 0.9375rem);
+  --fs-lg: clamp(1.125rem, 1.05rem + 0.4vw, 1.25rem);
+  --fs-h3: clamp(1.25rem, 1.1rem + 0.7vw, 1.5rem);
+  --fs-h2: clamp(1.625rem, 1.4rem + 1.2vw, 2.25rem);
+  --fs-h1: clamp(2rem, 1.5rem + 2.5vw, 3.5rem);
+  --fs-display: clamp(2.5rem, 1.8rem + 3.5vw, 5rem);
+
+  /* Spacing scale */
+  --space-2xs: 0.25rem;
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1.25rem;
+  --space-lg: 2rem;
+  --space-xl: 3rem;
+  --space-2xl: 4.5rem;
+  --space-3xl: 6rem;
+
+  /* Radius */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-full: 999px;
+
+  /* Layout */
+  --container: 1200px;
+  --container-narrow: 880px;
+  --header-h: 72px;
+
+  /* Motion */
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --transition: 0.25s var(--ease);
+}
+
+/* -------------------------------------------------------------------
+   3. DARK MODE
+   ------------------------------------------------------------------- */
+:root.dark {
+  --bg: #0a0a0a;
+  --bg-elevated: #161616;
+  --bg-muted: #1f1f1f;
+  --fg: #f4f4f5;
+  --fg-muted: #c0c0c0;
+  --fg-subtle: #888888;
+  --border: #2a2a2a;
+  --border-strong: #3a3a3a;
+
+  --card-bg: #161616;
+  --card-fg: #f4f4f5;
+  --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.4), 0 4px 16px rgba(0, 0, 0, 0.5);
+  --card-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.5), 0 12px 32px rgba(228, 0, 106, 0.15);
+
+  --accent: #ff4d94;
+  --accent-hover: #ff80b3;
+  --focus: #ff80b3;
+
+  --header-bg: rgba(10, 10, 10, 0.85);
+  --header-border: rgba(255, 255, 255, 0.1);
+  --footer-bg: #050505;
+  --footer-fg: #c0c0c0;
+
+  --highlight-bg: linear-gradient(135deg, #1a0510 0%, #1a1a05 100%);
+  --highlight-border: rgba(228, 0, 106, 0.3);
+}
+
+/* -------------------------------------------------------------------
+   4. ACCESSIBILITÀ – Skip link, screen-reader only
+   ------------------------------------------------------------------- */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: var(--space-md);
+  z-index: 9999;
+  background: var(--color-primary);
+  color: var(--color-white);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+  top: var(--space-md);
+  text-decoration: none;
+  color: var(--color-white);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* -------------------------------------------------------------------
+   5. HEADER
+   ------------------------------------------------------------------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  /* z-index alto: deve stare sopra l'overlay (z:105) altrimenti il <nav>
+     interno, anche se ha z:108, risulta "sotto" perché il header crea uno
+     stacking context che lo isola dal body. */
+  z-index: 110;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--header-bg);
+  border-bottom: 1px solid var(--header-border);
+  backdrop-filter: saturate(180%) blur(14px);
+  -webkit-backdrop-filter: saturate(180%) blur(14px);
+  min-height: var(--header-h);
+}
+
+.logo a {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  text-decoration: none;
+}
+
+.logo img {
+  height: 44px;
+  width: auto;
+  transition: transform 0.2s ease;
+}
+
+.logo a:hover img {
+  transform: rotate(-8deg) scale(1.05);
+}
+
+.logo a:hover {
+  text-decoration: none;
+}
+
+/* Theme toggle */
+#theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-full);
+  background: var(--bg-muted);
+  color: var(--fg);
+  font-size: 1.1rem;
+  margin-left: auto;
+  margin-right: var(--space-xs);
+  transition: background-color var(--transition), transform 0.2s ease;
+}
+
+#theme-toggle:hover {
+  background: var(--border);
+  transform: rotate(15deg);
+}
+
+#theme-toggle .icon-moon {
+  display: none;
+}
+
+:root.dark #theme-toggle .icon-sun {
+  display: none;
+}
+
+:root.dark #theme-toggle .icon-moon {
+  display: inline;
+}
+
+/* Hamburger */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 42px;
+  height: 42px;
+  padding: 8px;
+  border-radius: var(--radius-sm);
+  z-index: 110;
+}
+
+.hamburger .line {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--fg);
+  border-radius: 2px;
+  transition: transform 0.3s var(--ease), opacity 0.2s ease;
+  transform-origin: center;
+}
+
+.hamburger.open .line:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.hamburger.open .line:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.open .line:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Nav */
+.main-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.main-nav a {
+  position: relative;
+  padding: var(--space-xs) var(--space-sm);
+  color: var(--fg);
+  font-weight: 500;
+  font-size: var(--fs-sm);
+  border-radius: var(--radius-sm);
+  transition: color var(--transition), background var(--transition);
+}
+
+.main-nav a::after {
+  content: "";
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%) scaleX(0);
+  width: calc(100% - 1.5rem);
+  height: 2px;
+  background: var(--color-primary);
+  transition: transform 0.25s var(--ease);
+  transform-origin: center;
+}
+
+.main-nav a:hover,
+.main-nav a:focus-visible {
+  color: var(--color-primary);
+  text-decoration: none;
+  background: var(--bg-muted);
+}
+
+.main-nav a.active {
+  color: var(--color-primary);
+}
+
+.main-nav a.active::after,
+.main-nav a:hover::after {
+  transform: translateX(-50%) scaleX(1);
+}
+
+/* Overlay menu mobile */
+#menu-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  z-index: 105;
+}
+
+#menu-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* -------------------------------------------------------------------
+   6. LAYOUT BASE
+   ------------------------------------------------------------------- */
+main {
+  min-height: calc(100vh - var(--header-h) - 200px);
+}
+
+.section {
+  padding: var(--space-2xl) var(--space-md);
+}
+
+.section-inner {
+  max-width: var(--container);
+  margin-inline: auto;
+}
+
+.section.highlight {
+  background: var(--highlight-bg);
+  border-block: 1px solid var(--highlight-border);
+}
+
+.section h2 {
+  font-size: var(--fs-h2);
+  font-weight: 800;
+  line-height: 1.15;
+  margin-bottom: var(--space-md);
+  letter-spacing: -0.02em;
+  color: var(--fg);
+}
+
+.section h3 {
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--fg);
+}
+
+.section p {
+  font-size: var(--fs-body);
+  color: var(--fg-muted);
+  margin-bottom: var(--space-md);
+  max-width: 65ch;
+}
+
+.section p:last-child {
+  margin-bottom: 0;
+}
+
+strong {
+  color: var(--fg);
+  font-weight: 700;
+}
+
+/* Two columns generic */
+.two-columns {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-xl);
+}
+
+@media (min-width: 768px) {
+  .two-columns {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-2xl);
+  }
+}
+
+/* -------------------------------------------------------------------
+   7. PAGE HERO (header pagine interne)
+   ------------------------------------------------------------------- */
+.page-hero {
+  position: relative;
+  padding: var(--space-2xl) var(--space-md);
+  text-align: center;
+  background: linear-gradient(135deg, var(--color-primary) 0%, #c4005a 50%, #8a003e 100%);
+  color: var(--color-white);
+  overflow: hidden;
+}
+
+.page-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(255, 242, 0, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.page-hero h1 {
+  position: relative;
+  font-size: var(--fs-h1);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin: 0 auto;
+  max-width: 900px;
+}
+
+.page-hero p {
+  position: relative;
+  margin: var(--space-md) auto 0;
+  max-width: 600px;
+  font-size: var(--fs-lg);
+  color: rgba(255, 255, 255, 0.92);
+}
+
+/* -------------------------------------------------------------------
+   8. HOMEPAGE HERO
+   ------------------------------------------------------------------- */
+.home-hero {
+  position: relative;
+  min-height: clamp(420px, 60vh, 640px);
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: var(--space-2xl) var(--space-md);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.home-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(135deg, rgba(228, 0, 106, 0.85) 0%, rgba(0, 0, 0, 0.7) 100%),
+    url("media/images/amnesty.jpg") center / cover no-repeat;
+  z-index: -1;
+}
+
+.home-hero-content {
+  max-width: 900px;
+  color: var(--color-white);
+  opacity: 0;
+  transform: translateY(20px);
+  animation: heroIn 0.9s var(--ease) 0.2s forwards;
+}
+
+@keyframes heroIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.home-hero h1 {
+  font-size: var(--fs-display);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+  margin-bottom: var(--space-md);
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.home-hero .hero-date {
+  display: inline-block;
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  padding: var(--space-xs) var(--space-md);
+  background: var(--color-secondary);
+  color: var(--color-black);
+  border-radius: var(--radius-full);
+  margin-bottom: var(--space-lg);
+  letter-spacing: 0.05em;
+}
+
+.home-hero .hero-tagline {
+  font-size: var(--fs-lg);
+  color: rgba(255, 255, 255, 0.95);
+  margin-bottom: var(--space-lg);
+  max-width: 640px;
+  margin-inline: auto;
+}
+
+/* -------------------------------------------------------------------
+   9. BUTTONS
+   ------------------------------------------------------------------- */
+.hero-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  justify-content: center;
+  margin-block: var(--space-lg);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  padding: 0.875rem 1.75rem;
+  font-size: var(--fs-body);
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  border: 2px solid transparent;
+  white-space: nowrap;
+}
+
+.btn:hover {
+  text-decoration: none;
+  transform: translateY(-2px);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn.primary {
+  background: var(--color-primary);
+  color: var(--color-white);
+  box-shadow: 0 4px 16px rgba(228, 0, 106, 0.35);
+}
+
+.btn.primary:hover {
+  background: var(--color-primary-dark);
+  color: var(--color-white);
+  box-shadow: 0 8px 24px rgba(228, 0, 106, 0.45);
+}
+
+.btn.secondary {
+  background: transparent;
+  color: var(--color-white);
+  border-color: var(--color-white);
+}
+
+.btn.secondary:hover {
+  background: var(--color-white);
+  color: var(--color-primary);
+}
+
+/* Variante per fondi chiari */
+.section .btn.secondary {
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.section .btn.secondary:hover {
+  background: var(--color-primary);
+  color: var(--color-white);
+}
+
+.text-link {
+  display: inline-block;
+  margin-top: var(--space-sm);
+  color: var(--accent);
+  font-weight: 600;
+  position: relative;
+  padding-bottom: 2px;
+}
+
+.text-link::after {
+  content: " →";
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+.text-link:hover::after {
+  transform: translateX(4px);
+}
+
+/* -------------------------------------------------------------------
+   10. VIDEO HOMEPAGE
+   ------------------------------------------------------------------- */
+.video-section {
+  padding: var(--space-2xl) var(--space-md);
+  background: var(--bg-elevated);
+}
+
+.hero-video {
+  display: block;
+  max-width: var(--container-narrow);
+  width: 100%;
+  margin-inline: auto;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--card-shadow);
+  background: var(--color-black);
+  aspect-ratio: 16 / 9;
+}
+
+/* -------------------------------------------------------------------
+   11. INFO BLOCKS (festival.html)
+   ------------------------------------------------------------------- */
+.info-block-inner {
+  display: grid;
+  gap: var(--space-xl);
+  align-items: center;
+  grid-template-columns: 1fr;
+}
+
+.info-block-inner.left-img .info-image {
+  order: -1;
+}
+
+@media (min-width: 900px) {
+  .info-block-inner {
+    grid-template-columns: 5fr 6fr;
+  }
+  .info-block-inner.right-img .info-image {
+    order: 2;
+  }
+}
+
+.info-image img {
+  width: 100%;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--card-shadow);
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+/* -------------------------------------------------------------------
+   12. PROGRAMMA – Timeline
+   ------------------------------------------------------------------- */
+.program-hero .day-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  justify-content: center;
+  margin-top: var(--space-lg);
+}
+
+.day-location {
+  font-size: var(--fs-sm);
+  color: var(--fg-subtle);
+  margin-bottom: var(--space-lg);
+  font-style: italic;
+}
+
+.timeline {
+  display: grid;
+  gap: var(--space-md);
+  margin-top: var(--space-lg);
+}
+
+.event {
+  position: relative;
+  padding: var(--space-md) var(--space-lg);
+  background: var(--card-bg);
+  border-radius: var(--radius-md);
+  border-left: 4px solid var(--color-primary);
+  box-shadow: var(--card-shadow);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.event:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--card-shadow-hover);
+}
+
+.event-header {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-md);
+  margin-bottom: var(--space-xs);
+  flex-wrap: wrap;
+}
+
+.event-time {
+  display: inline-block;
+  padding: 4px 12px;
+  background: var(--color-primary);
+  color: var(--color-white);
+  border-radius: var(--radius-full);
+  font-weight: 700;
+  font-size: var(--fs-sm);
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+}
+
+.event-title {
+  font-size: var(--fs-h3);
+  margin: 0;
+}
+
+.event-desc {
+  color: var(--fg-muted);
+  margin: 0;
+}
+
+/* -------------------------------------------------------------------
+   13. OSPITI
+   ------------------------------------------------------------------- */
+.guests-grid {
+  display: grid;
+  gap: var(--space-lg);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 700px) {
+  .guests-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1100px) {
+  .guests-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.guest-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--card-shadow);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid var(--border);
+}
+
+.guest-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--card-shadow-hover);
+}
+
+.guest-avatar {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: var(--bg-muted);
+}
+
+.guest-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.guest-card:hover .guest-avatar img {
+  transform: scale(1.05);
+}
+
+.guest-info {
+  padding: var(--space-md) var(--space-lg) var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.guest-info h2 {
+  font-size: var(--fs-h3);
+  margin: 0 0 4px;
+  color: var(--fg);
+}
+
+.guest-role {
+  font-size: var(--fs-sm);
+  color: var(--accent);
+  font-weight: 600;
+  margin: 0 0 var(--space-sm);
+}
+
+.guest-bio {
+  font-size: var(--fs-sm);
+  color: var(--fg-muted);
+  margin: 0 0 var(--space-md);
+  flex: 1;
+}
+
+.guest-bio i {
+  color: var(--fg);
+  font-style: italic;
+}
+
+.guest-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-full);
+  background: var(--bg-muted);
+  color: var(--fg);
+  font-size: 1rem;
+  align-self: flex-start;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.guest-link:hover {
+  background: var(--color-primary);
+  color: var(--color-white);
+  text-decoration: none;
+  transform: scale(1.08);
+}
+
+/* -------------------------------------------------------------------
+   14. CONTATTI
+   ------------------------------------------------------------------- */
+.contact-cards {
+  display: grid;
+  gap: var(--space-lg);
+  grid-template-columns: 1fr;
+  max-width: 900px;
+  margin-inline: auto;
+}
+
+@media (min-width: 700px) {
+  .contact-cards {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.contact-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: var(--space-xl) var(--space-md);
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.contact-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--card-shadow-hover);
+}
+
+.contact-icon-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 72px;
+  border-radius: var(--radius-full);
+  font-size: 1.75rem;
+  margin-bottom: var(--space-md);
+  color: var(--color-white);
+  transition: transform 0.25s ease;
+}
+
+.contact-card:hover .contact-icon-wrapper {
+  transform: scale(1.08) rotate(-5deg);
+}
+
+.contact-card.instagram .contact-icon-wrapper {
+  background: linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+}
+
+.contact-card.facebook .contact-icon-wrapper {
+  background: #1877f2;
+}
+
+.contact-card.email .contact-icon-wrapper {
+  background: var(--color-primary);
+}
+
+.contact-card p {
+  font-weight: 600;
+  color: var(--fg);
+  margin: 0;
+  word-break: break-word;
+}
+
+.contact-card a:not(.contact-icon-wrapper) {
+  color: inherit;
+}
+
+/* -------------------------------------------------------------------
+   15. NEWS
+   ------------------------------------------------------------------- */
+.news-grid .section-inner {
+  max-width: var(--container-narrow);
+}
+
+.news-card {
+  display: grid;
+  grid-template-columns: 1fr;
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border);
+}
+
+@media (min-width: 800px) {
+  .news-card {
+    grid-template-columns: 5fr 7fr;
+  }
+}
+
+.news-image-wrapper {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  background: var(--bg-muted);
+  overflow: hidden;
+}
+
+.news-image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.news-badge {
+  position: absolute;
+  top: var(--space-md);
+  left: var(--space-md);
+  background: var(--color-secondary);
+  color: var(--color-black);
+  font-weight: 800;
+  font-size: var(--fs-sm);
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  letter-spacing: 0.05em;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.news-content {
+  padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.news-content h2 {
+  font-size: var(--fs-h2);
+  margin: 0;
+}
+
+.news-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  font-size: var(--fs-sm);
+  color: var(--fg-subtle);
+  padding-block: var(--space-xs);
+  border-block: 1px solid var(--border);
+}
+
+/* -------------------------------------------------------------------
+   16. INFO/PRENOTAZIONI
+   ------------------------------------------------------------------- */
+.signup-inner {
+  display: grid;
+  gap: var(--space-xl);
+  align-items: center;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 900px) {
+  .signup-inner {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.signup-image {
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius-lg);
+  background:
+    linear-gradient(135deg, rgba(228, 0, 106, 0.2), rgba(255, 242, 0, 0.2)),
+    url("media/images/protest.jpg") center / cover no-repeat;
+  box-shadow: var(--card-shadow);
+}
+
+.map-box {
+  margin-top: var(--space-md);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--card-shadow);
+  aspect-ratio: 4 / 3;
+}
+
+.map-box iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* -------------------------------------------------------------------
+   17. FOOTER
+   ------------------------------------------------------------------- */
+.site-footer {
+  padding: var(--space-xl) var(--space-md);
+  background: var(--footer-bg);
+  color: var(--footer-fg);
+  border-top: 4px solid var(--color-primary);
+}
+
+.footer-inner {
+  max-width: var(--container);
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+  text-align: center;
+}
+
+.footer-social {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.footer-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--footer-fg);
+  font-size: 1.1rem;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.footer-icon:hover {
+  background: var(--color-primary);
+  color: var(--color-white);
+  transform: translateY(-3px);
+  text-decoration: none;
+}
+
+.footer-meta-line {
+  font-size: var(--fs-sm);
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+}
+
+/* -------------------------------------------------------------------
+   18. MOBILE RESPONSIVE — menu off-canvas
+   ------------------------------------------------------------------- */
+@media (max-width: 900px) {
+  .hamburger {
+    display: flex;
+  }
+
+  .main-nav {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    /* Height esplicita: in alcuni engine (notably WebKit con flex-column)
+       top:0+bottom:0 non basta a far stretching senza una height definita.
+       Uso 100dvh con fallback 100vh per coprire i browser pre-2022. */
+    height: 100vh;
+    height: 100dvh;
+    width: min(280px, 80vw);
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: var(--space-xs);
+    padding: calc(var(--header-h) + var(--space-md)) var(--space-md) var(--space-lg);
+    background: var(--bg);
+    box-shadow: -8px 0 32px rgba(0, 0, 0, 0.2);
+    transform: translateX(100%);
+    /* Transition coordinata: visibility cambia DOPO la trasform per evitare
+       flash; quando si apre cambia subito (delay 0). */
+    transition:
+      transform 0.3s var(--ease),
+      visibility 0s linear 0.3s;
+    visibility: hidden;             /* menu chiuso = NON interagibile, NON spaziale */
+    z-index: 108;
+    overflow-y: auto;
+    /* iOS Safari: scroll fluido del menu se troppo lungo */
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .main-nav.open {
+    transform: translateX(0);
+    visibility: visible;
+    transition:
+      transform 0.3s var(--ease),
+      visibility 0s linear 0s;       /* aperto: visibility immediata */
+  }
+
+  /* Lock dello scroll del documento mentre il menu è aperto.
+     position:fixed + width:100% = anti-jitter su iOS, evita lo scroll-bleed. */
+  body.menu-open {
+    overflow: hidden;
+    /* preserva la posizione di scroll grazie al JS che salva scrollY */
+  }
+
+  .main-nav a {
+    padding: var(--space-md);
+    font-size: var(--fs-lg);
+    border-radius: var(--radius-md);
+  }
+
+  .main-nav a::after {
+    display: none;
+  }
+
+  .main-nav a.active {
+    background: var(--bg-muted);
+  }
+}
+
+/* Solo desktop: nasconde overlay anche se attivo per side-effect */
+@media (min-width: 901px) {
+  #menu-overlay {
+    display: none !important;
+  }
+  .hamburger {
+    display: none !important;
+  }
+}
+
+/* -------------------------------------------------------------------
+   19. PRINT
+   ------------------------------------------------------------------- */
+@media print {
+  .site-header,
+  .site-footer,
+  .hamburger,
+  #theme-toggle,
+  #menu-overlay,
+  .hero-cta,
+  .day-nav {
+    display: none !important;
+  }
+  body {
+    color: #000;
+    background: #fff;
+  }
+  a {
+    color: #000;
+    text-decoration: underline;
+  }
+}
+
+/* -------------------------------------------------------------------
+   20. ICON SYSTEM (SVG inline — zero CDN, zero font icon)
+   - .icon: glifo decorativo che eredita color/size dal parent
+   - usato dentro .footer-icon, .contact-icon-wrapper, .guest-link, ecc.
+   ------------------------------------------------------------------- */
+.icon {
+  inline-size: 1em;
+  block-size: 1em;
+  fill: currentColor;
+  stroke: none;
+  flex-shrink: 0;
+  vertical-align: -0.125em;     /* allineamento ottico con la x-height */
+  pointer-events: none;          /* il click resta sul parent <a> */
+}
+
+/* Le icone dentro le pill social del footer hanno una dimensione fissa */
+.footer-icon .icon {
+  inline-size: 18px;
+  block-size: 18px;
+  vertical-align: middle;
+}
+
+/* Icone tonde grandi della pagina contatti */
+.contact-icon-wrapper .icon {
+  inline-size: 1.75rem;
+  block-size: 1.75rem;
+  vertical-align: middle;
+}
+
+/* Icone link Instagram nelle card ospiti */
+.guest-link .icon {
+  inline-size: 1rem;
+  block-size: 1rem;
+  vertical-align: middle;
+}
+
+/* Icone inline nei testi (es. meta news, link esterni) */
+.news-meta .icon,
+.text-link .icon,
+.btn .icon {
+  inline-size: 1em;
+  block-size: 1em;
+  vertical-align: -0.125em;
+}
+
+/* -------------------------------------------------------------------
+   21. INFO-LOGO — variante della .info-image per loghi/banner
+   Per asset con rapporto NON 4:3 (es. logo01.png è 3:1).
+   Rispetta il rapporto nativo del file, niente crop.
+   ------------------------------------------------------------------- */
+.info-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(var(--space-md), 4vw, var(--space-xl));
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--card-shadow);
+  /* Container con rapporto coerente al logo wide (≈3:1 + padding generoso) */
+  aspect-ratio: 5 / 2;
+  min-block-size: 200px;
+  overflow: hidden;
+}
+
+.info-logo img {
+  inline-size: 100%;
+  block-size: auto;
+  max-block-size: 100%;
+  object-fit: contain;            /* MAI cover su un logo */
+  display: block;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* Sul desktop affiancato a testo: il logo è già contenuto bene dalla griglia */
+@media (min-width: 900px) {
+  .info-logo {
+    aspect-ratio: 16 / 9;
+    min-block-size: 0;
+  }
+}
+
+/* In dark mode la card ospita meglio il logo bianco */
+:root.dark .info-logo {
+  background: #050505;
+  border-color: var(--border);
+}
+
+/* -------------------------------------------------------------------
+   22. TIMELINE — reset list-style difensivo
+   Anche se cambiamo <ol>→<ul>, blindiamo lo stile contro futuri rollback.
+   ------------------------------------------------------------------- */
+.timeline {
+  list-style: none;
+  padding-inline-start: 0;
+  margin-block: 0;
+}

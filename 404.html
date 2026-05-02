@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#e4006a" />
+  <title>Pagina non trovata – DISSENSI</title>
+  <meta name="robots" content="noindex" />
+  <link rel="icon" type="image/png" href="media/images/pugno.png" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .error-wrap {
+      min-height: calc(100vh - 200px);
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: var(--space-2xl) var(--space-md);
+    }
+    .error-code {
+      font-size: clamp(5rem, 20vw, 12rem);
+      font-weight: 900;
+      line-height: 1;
+      background: linear-gradient(135deg, var(--color-primary), #ff80b3);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.05em;
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header" role="banner">
+    <div class="logo">
+      <a href="index.html" aria-label="DISSENSI - Homepage">
+        <img src="media/images/pugno.png" alt="" width="44" height="44" />
+        <span class="sr-only">DISSENSI Festival</span>
+      </a>
+    </div>
+  </header>
+
+  <main>
+    <div class="error-wrap">
+      <div>
+        <div class="error-code" aria-hidden="true">404</div>
+        <h1>Pagina non trovata</h1>
+        <p style="color: var(--fg-muted); max-width: 480px; margin: var(--space-md) auto var(--space-lg);">
+          La pagina che stavi cercando non esiste o è stata spostata.
+          Torna alla home per riprendere la navigazione.
+        </p>
+        <a href="index.html" class="btn primary">Torna alla homepage</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-inner">
+      <p class="footer-meta-line">© 2025 DISSENSI · A cura di Amnesty International Lecce</p>
+    </div>
+  </footer>
+</body>
+</html>
