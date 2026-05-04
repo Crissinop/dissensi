@@ -338,8 +338,17 @@ button {
   height: 2px;
   background: var(--fg);
   border-radius: 2px;
-  transition: transform 0.3s var(--ease), opacity 0.2s ease;
+  transition:
+    transform 0.36s cubic-bezier(0.32, 0.72, 0, 1),
+    opacity 0.2s ease,
+    background 0.2s ease;
   transform-origin: center;
+}
+
+/* Hover/focus: feedback discreto ma percepibile */
+.hamburger:hover .line,
+.hamburger:focus-visible .line {
+  background: var(--color-primary);
 }
 
 .hamburger.open .line:nth-child(1) {
@@ -348,6 +357,7 @@ button {
 
 .hamburger.open .line:nth-child(2) {
   opacity: 0;
+  transform: translateX(-8px);    /* esce di lato per accentuare la trasformazione */
 }
 
 .hamburger.open .line:nth-child(3) {
@@ -400,20 +410,34 @@ button {
   transform: translateX(-50%) scaleX(1);
 }
 
-/* Overlay menu mobile */
+/* Overlay menu mobile: backdrop scuro con leggero blur per profondità */
 #menu-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.55);
+  /* Gradient con sfumatura: più scuro a destra (lato drawer) per dare focus */
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.45) 0%,
+    rgba(0, 0, 0, 0.65) 100%
+  );
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
+  /* Stessa curva del drawer per coerenza visiva */
+  transition:
+    opacity 0.36s cubic-bezier(0.32, 0.72, 0, 1),
+    visibility 0s linear 0.36s;
   z-index: 105;
+  cursor: pointer;
 }
 
 #menu-overlay.active {
   opacity: 1;
   visibility: visible;
+  transition:
+    opacity 0.36s cubic-bezier(0.32, 0.72, 0, 1),
+    visibility 0s linear 0s;
 }
 
 /* -------------------------------------------------------------------
@@ -1146,6 +1170,11 @@ strong {
 
 /* -------------------------------------------------------------------
    18. MOBILE RESPONSIVE — menu off-canvas
+   Approach:
+   - Drawer fixed con transform animato (entry da destra)
+   - Overlay separato con opacity animata
+   - Body lock via position:fixed (preserva scrollY, gestito in JS)
+   - Stagger animation sui link per entrata coreografata
    ------------------------------------------------------------------- */
 @media (max-width: 900px) {
   .hamburger {
@@ -1157,59 +1186,143 @@ strong {
     top: 0;
     right: 0;
     bottom: 0;
-    /* Height esplicita: in alcuni engine (notably WebKit con flex-column)
-       top:0+bottom:0 non basta a far stretching senza una height definita.
-       Uso 100dvh con fallback 100vh per coprire i browser pre-2022. */
+    /* Height esplicita: WebKit con flex-column non sempre stretcha
+       top:0+bottom:0 senza height. 100dvh segue la viewport dinamica
+       (utile su mobile quando la barra URL appare/scompare). */
     height: 100vh;
     height: 100dvh;
-    width: min(280px, 80vw);
+    width: min(320px, 86vw);
     flex-direction: column;
     align-items: stretch;
     justify-content: flex-start;
-    gap: var(--space-xs);
-    padding: calc(var(--header-h) + var(--space-md)) var(--space-md) var(--space-lg);
+    gap: 4px;
+    padding: calc(var(--header-h) + var(--space-lg)) var(--space-md) var(--space-xl);
     background: var(--bg);
-    box-shadow: -8px 0 32px rgba(0, 0, 0, 0.2);
-    transform: translateX(100%);
-    /* Transition coordinata: visibility cambia DOPO la trasform per evitare
-       flash; quando si apre cambia subito (delay 0). */
+    /* Bordo magenta sul lato sinistro: detail di brand */
+    border-left: 1px solid var(--border);
+    box-shadow:
+      -16px 0 48px -8px rgba(0, 0, 0, 0.35),
+      -2px 0 8px -2px rgba(0, 0, 0, 0.15);
+    /* Stato chiuso: traslato fuori dalla viewport, completamente invisibile.
+       Uso will-change per dare al browser un hint di hardware acceleration. */
+    transform: translate3d(100%, 0, 0);
+    will-change: transform;
+    /* Curva ease custom per drawer: parte veloce, decelera con grazia.
+       cubic-bezier(0.32, 0.72, 0, 1) = "spring-like" Apple-style */
     transition:
-      transform 0.3s var(--ease),
-      visibility 0s linear 0.3s;
-    visibility: hidden;             /* menu chiuso = NON interagibile, NON spaziale */
+      transform 0.36s cubic-bezier(0.32, 0.72, 0, 1),
+      visibility 0s linear 0.36s;
+    visibility: hidden;
     z-index: 108;
     overflow-y: auto;
-    /* iOS Safari: scroll fluido del menu se troppo lungo */
     -webkit-overflow-scrolling: touch;
+    /* Evita pull-to-refresh sotto il menu su iOS */
+    overscroll-behavior: contain;
   }
 
   .main-nav.open {
-    transform: translateX(0);
+    transform: translate3d(0, 0, 0);
     visibility: visible;
     transition:
-      transform 0.3s var(--ease),
-      visibility 0s linear 0s;       /* aperto: visibility immediata */
+      transform 0.36s cubic-bezier(0.32, 0.72, 0, 1),
+      visibility 0s linear 0s;
   }
 
-  /* Lock dello scroll del documento mentre il menu è aperto.
-     position:fixed + width:100% = anti-jitter su iOS, evita lo scroll-bleed. */
-  body.menu-open {
-    overflow: hidden;
-    /* preserva la posizione di scroll grazie al JS che salva scrollY */
-  }
-
+  /* === Link del drawer === */
   .main-nav a {
-    padding: var(--space-md);
+    position: relative;
+    padding: var(--space-md) var(--space-md);
     font-size: var(--fs-lg);
+    font-weight: 500;
+    color: var(--fg);
+    background: transparent;
     border-radius: var(--radius-md);
+    /* Stato iniziale per l'animazione di entrata stagger */
+    opacity: 0;
+    transform: translateX(16px);
+    transition:
+      opacity 0.4s ease,
+      transform 0.4s cubic-bezier(0.32, 0.72, 0, 1),
+      background 0.2s ease,
+      color 0.2s ease;
   }
 
+  /* Stagger: ogni link entra con 60ms di ritardo rispetto al precedente.
+     Si attiva solo quando .main-nav.open è applicata, quindi parte
+     dopo l'animazione del drawer stesso. */
+  .main-nav.open a {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .main-nav.open a:nth-child(1) { transition-delay: 0.10s; }
+  .main-nav.open a:nth-child(2) { transition-delay: 0.14s; }
+  .main-nav.open a:nth-child(3) { transition-delay: 0.18s; }
+  .main-nav.open a:nth-child(4) { transition-delay: 0.22s; }
+  .main-nav.open a:nth-child(5) { transition-delay: 0.26s; }
+  .main-nav.open a:nth-child(6) { transition-delay: 0.30s; }
+  .main-nav.open a:nth-child(7) { transition-delay: 0.34s; }
+
+  /* Hover/focus: feedback chiaro senza essere invadente */
+  .main-nav a:hover,
+  .main-nav a:focus-visible {
+    background: var(--bg-muted);
+    color: var(--color-primary);
+    text-decoration: none;
+  }
+
+  /* Disabilita la sottolineatura desktop (la freccia o l'indicatore brand) */
   .main-nav a::after {
     display: none;
   }
 
-  .main-nav a.active {
-    background: var(--bg-muted);
+  /* Pagina corrente: indicatore visivo forte ma elegante */
+  .main-nav a.active,
+  .main-nav a[aria-current="page"] {
+    background: linear-gradient(
+      90deg,
+      var(--bg-muted) 0%,
+      transparent 100%
+    );
+    color: var(--color-primary);
+    font-weight: 700;
+  }
+
+  /* Barra magenta a sinistra sul link attivo */
+  .main-nav a.active::before,
+  .main-nav a[aria-current="page"]::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 12%;
+    bottom: 12%;
+    width: 3px;
+    background: var(--color-primary);
+    border-radius: 0 2px 2px 0;
+  }
+
+  /* === Body scroll lock ===
+     Il JS salva scrollY e applica top:-scrollY. Qui blocchiamo la posizione.
+     Tecnica iOS-safe: il body diventa fixed full-width, lo scroll del
+     documento è congelato. Al rilascio il JS scrolla a savedScrollY. */
+  body.menu-open {
+    position: fixed;
+    inset-inline: 0;
+    overflow: hidden;
+    /* width:100% per evitare reflow orizzontale durante il lock */
+    width: 100%;
+  }
+}
+
+/* Quando l'utente preferisce ridurre il movimento: disabilita stagger e
+   accorcia transition per chi soffre di motion sickness. */
+@media (max-width: 900px) and (prefers-reduced-motion: reduce) {
+  .main-nav,
+  .main-nav.open,
+  .main-nav a,
+  .main-nav.open a {
+    transition-duration: 0.15s !important;
+    transition-delay: 0s !important;
   }
 }
 

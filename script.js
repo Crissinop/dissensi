@@ -92,39 +92,78 @@
     const navMenu = document.getElementById("nav-menu");
     const overlay = document.getElementById("menu-overlay");
     const body = document.body;
+    const html = document.documentElement;
 
     if (hamburger && navMenu) {
       let lastFocused = null;
+      let isAnimating = false;       // debounce tap rapidi
+      let savedScrollY = 0;          // posizione di scroll preservata
 
       const focusableSelector =
         'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
-      const openMenu = () => {
-        lastFocused = document.activeElement;
-        navMenu.classList.add("open");
-        hamburger.classList.add("open");
-        if (overlay) overlay.classList.add("active");
+      // Lock scroll preservando la posizione (tecnica iOS-safe).
+      // Salva scrollY → fixed body con top negativo → al rilascio ripristina.
+      const lockScroll = () => {
+        savedScrollY = window.scrollY || window.pageYOffset || 0;
+        body.style.top = `-${savedScrollY}px`;
         body.classList.add("menu-open");
-        hamburger.setAttribute("aria-expanded", "true");
+      };
 
-        // Focus sul primo link per accessibilità tastiera
-        const firstLink = navMenu.querySelector(focusableSelector);
-        if (firstLink) {
-          // microtask per attendere la transizione
-          requestAnimationFrame(() => firstLink.focus());
-        }
+      const unlockScroll = () => {
+        body.classList.remove("menu-open");
+        body.style.top = "";
+        // Ripristino con scrollTo classico (x, y): universalmente supportato,
+        // sempre istantaneo. La forma con behavior:"instant" non è supportata
+        // dappertutto e rischia fallback a smooth (= flicker visibile).
+        window.scrollTo(0, savedScrollY);
+      };
+
+      const openMenu = () => {
+        if (isAnimating || navMenu.classList.contains("open")) return;
+        isAnimating = true;
+        lastFocused = document.activeElement;
+
+        lockScroll();
+        if (overlay) overlay.classList.add("active");
+        // Doppio rAF: forza un layout flush prima della transition,
+        // così il transform parte da translateX(100%) verso 0 in modo animato
+        // (senza questo, browser come Safari saltano la transition).
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            navMenu.classList.add("open");
+            hamburger.classList.add("open");
+            hamburger.setAttribute("aria-expanded", "true");
+          });
+        });
+
+        // Rilascio del lock dopo la durata della transition.
+        // Sblocca anche il focus management.
+        setTimeout(() => {
+          isAnimating = false;
+          const firstLink = navMenu.querySelector(focusableSelector);
+          if (firstLink) firstLink.focus({ preventScroll: true });
+        }, 350);
       };
 
       const closeMenu = (returnFocus = true) => {
+        if (isAnimating || !navMenu.classList.contains("open")) return;
+        isAnimating = true;
+
         navMenu.classList.remove("open");
         hamburger.classList.remove("open");
         if (overlay) overlay.classList.remove("active");
-        body.classList.remove("menu-open");
         hamburger.setAttribute("aria-expanded", "false");
 
-        if (returnFocus && lastFocused && typeof lastFocused.focus === "function") {
-          lastFocused.focus();
-        }
+        // Aspetta la fine della transition prima di sbloccare lo scroll
+        // (altrimenti l'utente vede il salto verticale a metà animazione).
+        setTimeout(() => {
+          unlockScroll();
+          if (returnFocus && lastFocused && typeof lastFocused.focus === "function") {
+            lastFocused.focus({ preventScroll: true });
+          }
+          isAnimating = false;
+        }, 320);
       };
 
       hamburger.addEventListener("click", () => {
@@ -169,7 +208,10 @@
       // Chiudi al click su un link interno (UX mobile)
       navMenu.addEventListener("click", (e) => {
         if (e.target.tagName === "A") {
-          closeMenu(false);
+          // Non aspettiamo la transition perché stiamo navigando via.
+          // Pulizia immediata dello stato per evitare flash post-navigazione.
+          body.classList.remove("menu-open");
+          body.style.top = "";
         }
       });
 
@@ -177,7 +219,14 @@
       const mqDesktop = window.matchMedia("(min-width: 901px)");
       const handleViewport = (e) => {
         if (e.matches && navMenu.classList.contains("open")) {
-          closeMenu(false);
+          // Pulizia istantanea, senza animazione
+          navMenu.classList.remove("open");
+          hamburger.classList.remove("open");
+          if (overlay) overlay.classList.remove("active");
+          hamburger.setAttribute("aria-expanded", "false");
+          body.classList.remove("menu-open");
+          body.style.top = "";
+          isAnimating = false;
         }
       };
       try {
